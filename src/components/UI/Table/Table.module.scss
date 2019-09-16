@@ -1,0 +1,397 @@
+@import '../../../sass/variables';
+@import "../../../sass/tools/tools.mixins";
+
+.TableWrap {
+  overflow: auto;
+  border-radius: 6px;
+  background-color: $color-white;
+  padding-bottom: 24px;
+  box-shadow: $shadow-main;
+
+  @include mq('to', 1068, '') {
+    overflow: unset;
+  }
+  
+}
+.Table {
+  margin-bottom: 0;
+//   min-width: 1040px;
+  overflow-y: hidden;
+  overflow-x: hidden;
+
+  @include mq('to', 1068, '') {
+    display: inline-block!important;
+    min-width: auto;
+  }
+  
+  thead {
+      background-color: $color-main;
+      text-align: left;
+      height: 40px;
+
+        @include mq('to', 1068, '') {
+            display: flex;
+            justify-content: space-between;
+        }
+
+      tr  {
+          height: 40px;
+
+          @include mq('to', 1068, '') {
+            width: 100%;
+            flex: 1 1 30%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding: 7px 15px;
+          }
+
+          th {
+              color: $color-white;
+              font-weight: $weight-bold;
+              font-size: $font-size-medium;
+              text-align: left;
+              border-bottom: none;
+              vertical-align: top;
+              padding: 15px 56px 4px 0;
+
+                @include mq('to', 1068, '') {
+                    width: 50%;
+                    padding: 0;
+                }
+              
+              &:first-child {
+                  padding-left: 35px;
+                    @include mq('to', 1068, '') {
+                       padding-left: 0;
+                    }
+              }
+              
+              small {
+                  font-size: 9px;
+                  display: block;
+              }
+          }
+      }
+  }
+
+  .TableHeadNormal {
+    tr {
+        th {
+            padding: 15px 56px 15px 0;
+            @include mq('to', 1068, '') {
+                padding: 0;
+            }
+        }
+    }
+  }  
+
+  tbody {
+      border-left: 50px solid $color-white;
+      border-right: 50px solid $color-white;
+
+      @include mq('to', 1068, '') {
+        border-left: none;
+        border-right: none;
+        /* display: flex; */
+        /* flex-direction: row; */
+        width: 100%;
+        display: flex;
+        display: flex;
+        height: 100%;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      tr  {
+          height: 100%;
+          vertical-align: middle;
+          padding: 5px 0;
+
+          @include mq('to', 1068, '') {
+            width: 100%;
+            flex: 1 1 30%;
+            @media screen and (-webkit-min-device-pixel-ratio:0) {
+                flex: unset;
+                height: 40px;
+            }
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding: 7px 15px;
+          }
+
+          .IconCC {
+              width: 60px;
+              @include mq('to', 1068, '') {
+                width: 45px;
+              }
+              path {
+                 fill: $color-grey-light;
+              }
+          }
+          text-align: center;
+          color: $color-grey-light;
+          td {
+              text-align: left;
+              padding: 8px 56px 8px 0;
+
+              @include mq('fromto', 1282, 1601) {
+                padding: 8px 8px 8px 0;
+                @media screen and (-webkit-min-device-pixel-ratio:0) {
+                    padding: 8px 8px 8px 0;
+                }
+              }
+
+              @include mq('to', 1068, '') {
+                border-bottom: none;
+                width: 50%;
+                // padding: 0;
+                padding-right: 15px;
+              }
+
+              &:first-child {
+                  padding-left: 12px;
+                  @include mq('to', 1068, '') {
+                    padding-left: 0;
+                    padding-right: 15px;
+                  }
+              }
+
+                &:nth-child(2), &:nth-child(3) {
+                    @include mq('to', 1068, '') {
+                       
+                    }
+                }
+
+              &:last-child {
+                @include mq('to', 1068, '') {
+                  padding-left: 0;
+                  padding-right: 0;
+                  padding-top: 0px;
+                  padding-bottom: 2px;
+                }
+
+                @include mq('fromto', 1282, 1601) {
+                    padding: 8px 8px 8px 0;
+                    @media screen and (-webkit-min-device-pixel-ratio:0) {
+                        padding: 8px 8px 8px 0;
+                    }
+                }
+            }
+            button {
+                @include mq('fromto', 1282, 1601) {
+                    padding-left: 3px!important;
+                    padding-right: 3px!important;
+                    width: 125px!important;
+
+                    @media screen and (-webkit-min-device-pixel-ratio:0) {
+                        padding-left: 3px!important;
+                        padding-right: 3px!important;
+                        width: 125px!important;
+                    }
+                }
+            }
+          }
+
+          &:nth-child(odd) {
+              background-color: $color-white;
+          }
+          &:nth-child(even) {
+            background-color: $color-grey-white;
+        }
+          .EmptyCell {
+              padding: 40px 0 0;
+              text-align: center;
+              color: $color-grey-light;
+              border-bottom: none;
+              margin: auto;
+              @include mq('to', 1068, '') {
+                width: 100%!important;
+                padding-top: 40px!important;
+              }
+              h3 {
+                  color: $color-grey-light;
+                  font-size: $font-size-normal;
+              }
+          }
+          
+      }     
+  }
+  
+}
+
+.PopoverAnchor {
+    display: flex;
+}
+
+.StatusDot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    float: left;
+    margin-top: 2px;
+    margin-right: 8px;
+    margin-bottom: 4px;
+    
+}
+.InProgress {
+    background-color: $color-blue;
+}
+.Completed {
+    background-color: $color-main;
+}
+.Missed {
+    background-color: $color-yellow;
+}
+.Rejected {
+    background-color: $color-orange;
+}
+.Failed {
+    background-color: $color-red;
+}
+
+.Review {
+    display: flex;
+    font-size: 20px;
+    font-weight: 500;
+    .RateStars {
+        margin-left: 10px;
+    }
+}
+
+.InfoTooltip {
+    width: 17px;
+    height: 16px;
+    background-color: #a5a5a5;
+    /* float: right; */
+    padding-top: 1px;
+    text-align: center;
+    /* padding: 3px 8.5px; */
+    border-radius: 50%;
+    cursor: pointer;
+    display: inline-block;
+    margin-left: 9px;
+    line-height: 16px;
+    .IconExclamation {
+        width: 3px;
+    }
+    @include mq('to', 769, '') {
+        display: none;
+    }
+}
+
+.IconInfo {
+    width: 18px;
+    margin-left: 5px !important;
+    svg{
+        display: flex;
+    }
+}
+
+.PanelColumn {
+    font-size: 13px;
+    line-height: 1.5;
+    display: flex;
+    padding-bottom: 1px;
+    .StatusDot {
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        float: left;
+        margin-top: 4px;
+        margin-right: 8px;
+        margin-bottom: 5px;
+        flex-shrink: 0;
+    }
+
+    .Title {
+       font-weight: $weight-bold;
+    }
+
+}
+
+//Responsive table styles
+
+.ArrowRight, .ArrowLeft {
+    width: 20px;
+    height: 20px;
+    padding: 3px 3px;
+    margin-top: 0;
+    &:hover {
+        border: 1px solid $color-grey-light;
+        border-radius: 50%
+    }
+    svg {
+      width: 12px;
+      height: 12px;
+      path {
+        fill: #000;
+      }
+    }
+  }
+
+  .ArrowLeft {
+    margin-top: 2px!important;
+  }
+
+  .SlideDescription {
+    display: flex;
+    flex-direction: row;
+    padding: 8px 20px;
+    background-color: #ddd;
+    
+    div {
+        // display: flex;
+        // flex-direction: column;
+        &:first-child {
+            font-weight: 600;
+            width: 40%;
+            font-weight: 600;
+            flex-shrink: 1;
+        }
+        &:last-child {
+        //    padding-left: 30px;
+        }
+    }
+    
+  }
+
+  .SlideWrap {
+      padding: 0 20px;
+  }
+
+  .SlideGeneral {
+    display: flex;
+    padding: 10px 0;
+    align-items: center;
+    div {
+        // display: flex;
+        // flex-direction: column;
+        &:first-child {
+            width: 40%;
+            font-weight: 600;
+        }
+        &:last-child {
+        //    padding-left: 30px;
+        }
+    }
+    
+  }
+
+  .Divider {
+      margin: 10px 0;
+  }
+
+  .LegendExpansion {
+      padding-bottom: 20px !important;
+      h2{
+        font-size: $font-size-semi-big;
+        display: flex;
+        align-items: center;
+      }
+  }
+  
+

@@ -1,0 +1,81 @@
+@import "../../sass/variables";
+@import "../../sass/tools/tools.mixins";
+
+.LayoutRoot {
+  display: flex;
+  
+	flex-direction: column;
+	min-height: inherit;
+	width: inherit;
+}
+
+.Scroller {
+  min-height: inherit;
+  overflow-y: overlay;
+  overflow-x: hidden;
+  @include mq('to', 769, '') {
+    overflow-x: unset;
+    overflow-y: unset;
+  }
+  height: calc(100vh - #{$header-height});
+
+  
+	.MainWrap {
+    display: flex;
+		flex-direction: column;
+    min-height: inherit;
+    
+
+		.MainContainer {
+      display: flex;
+
+      @include mq('to', 601, '') {
+        display: block;
+        // padding: 0 40px;
+      }
+
+      
+
+			align-items: stretch;
+			flex-direction: row;
+      flex: 1 1 auto;
+      
+      Main {
+        display: flex;
+        align-items: flex-start;
+        flex: 1;
+        position: unset;
+
+        @include mq('to', 601, '') {
+          display: block;
+          padding: 0;
+          position: unset;
+          
+        }
+
+        @include mq('fromto', 602, 1025) {
+          display: block;
+          // padding: 40px 20px;
+        }
+
+        // @include mq('from', 1026, '') {
+        //   display: block;
+        //   padding: 40px 20px;
+        // }
+        // if the main contains only one child it is certainly a container so use the max width and height of the container
+        // we are defining it here to cut the repetition of the code accross the app
+        & > *:only-child {
+          flex: 1;
+        }
+      }
+		}
+	}
+}
+
+// IE 10 and above specific styles
+
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  .LayoutRoot {
+    // display: block;
+  }
+}

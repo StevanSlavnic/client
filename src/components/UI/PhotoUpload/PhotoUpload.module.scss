@@ -1,0 +1,39 @@
+@import '../../../sass/variables';
+
+.Loader {
+    position: absolute !important;
+    width: 100% !important;
+    height: 100% !important;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    >*{
+      width: 100% !important;
+      height: 100% !important;
+    }
+}
+
+.IconCamera {
+  background-color: $color-main;
+  border-radius: 50%;
+
+  height: 35px;
+  width: 35px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: absolute;
+  top:20%;
+  left:75%;
+
+  z-index: 99;
+
+
+  svg{
+    color: $color-white;
+  }
+}

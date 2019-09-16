@@ -1,0 +1,15 @@
+@import '../../../sass/variables';
+
+.Divider{
+  background-color: $color-border;
+}
+
+.DividerVertical {
+  width: 1px;
+  height: 100%;
+}
+
+.DividerHorizontal {
+  height: 1px;
+  width: 100%;
+}

@@ -1,0 +1,19 @@
+@import './../../../sass/variables';
+@import './../../../sass/tools/tools.mixins';
+
+.List {
+	padding: 0 !important;
+	color: $color-blue;
+	font-weight: $weight-semibold;
+	.ListItem {
+    padding: 6px 0 !important;
+    @include link-hover($color-blue, $color-black);
+  }
+  .SelectedItem {
+    color: $color-black;
+    font-weight: $weight-bold;
+  }
+	.NestedList {
+		padding: 0px 25px;
+	}
+}

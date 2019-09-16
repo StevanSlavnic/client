@@ -1,0 +1,25 @@
+@import "../../../sass/tools/tools.mixins";
+
+// /* autoprefixer grid: autoplace */
+
+.ListBase {
+  display: grid;
+  grid-gap: 35px;
+  grid-row-gap: 45px;
+  grid-template-columns: repeat(auto-fill, minmax(246px, 0.7fr));
+  // grid-template-rows: 245px;
+  @include mq('to', 601, '') {
+    grid-template-columns: none;  
+  }
+  @include mq('fromto', 602, 815) {
+    grid-template-columns: none;  
+  }
+  @include mq('fromto', 816, 885) {
+    // grid-template-columns: none;  
+    grid-template-columns: repeat(auto-fill, minmax(215px, 0.7fr));
+  }
+  @include mq('fromto', 886, 1025) {
+    // grid-template-columns: none;  
+    grid-template-columns: repeat(auto-fill, minmax(215px, 0.7fr));
+  }
+}

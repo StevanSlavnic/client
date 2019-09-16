@@ -1,0 +1,52 @@
+@import '../../../sass/variables';
+.ExpansionPanel {
+  box-shadow: 0 1px 6px rgba(29, 44, 45, 0.1)!important;
+
+  .ExpansionPanelDetails {
+    padding: 6px 30px;
+    // border-bottom: 1px solid #ddd;
+  }
+
+  .ExpansionPanelSummary {
+    // border-top: 1px solid #ddd;
+    // border-bottom: 1px solid #ddd;
+    // background-color: grey;
+    font-size: $font-size-semi-big;
+    &:first-child {
+      min-height: 48px;
+     div {
+        margin: 0;
+        left: 22px;
+        right: auto;
+        padding: 0;
+     }
+    }
+
+    &:last-child {
+      div {
+        background-color: aqua
+      }
+
+    }
+    .Heading {
+      margin-bottom: 0;
+      padding-left: 28px;
+    }
+  }
+
+  .ExpansionPanelDetails {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+  }
+  .ArrowDropDown {
+    left: 8px!important;
+    fill: $color-blue;
+  }
+
+  
+}
+
+
+
+
