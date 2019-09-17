@@ -15,7 +15,7 @@ import * as validator from "../../utils/formValidator";
 
 class Auth extends Component {
   state = {
-    loading: false,
+    // loading: false,
     formIsValid: false,
     formControls: {
       email: {

@@ -8,10 +8,10 @@ import axiosInstance from "../axiosDefaultInstance";
 export const getLoggedUser = token => {
   const config = {
     headers: {
-      "X-Auth-Token": "Bearer " + token
+      Authorization: "Bearer " + token
     }
   };
   const url = "/users/show";
 
-  return axiosInstance.post(config, url);
+  return axiosInstance.post(url, config);
 };

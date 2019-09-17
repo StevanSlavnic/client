@@ -12,14 +12,18 @@ export const login = data => {
     ...data
   };
 
+  console.log(params);
+
   return axiosInstance.post(url, params);
 };
 
 export const refreshToken = data => {
-  const url = "/oauth/v2/token";
+  const url = "/users/show";
   const params = {
     ...data
   };
+
+  console.log(params);
 
   return axiosInstance.post(url, params);
 };
@@ -29,6 +33,8 @@ export const confirmEmail = code => {
   const params = {
     token: code
   };
+
+  console.log(params);
 
   return axiosInstance.patch(url, params);
 };

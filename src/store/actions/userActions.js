@@ -28,6 +28,7 @@ export const getLoggedUser = () => {
       return userService
         .getLoggedUser(tokenData)
         .then(response => {
+          console.log(response.data);
           dispatch(setLoggedInUser(response.data));
           return response;
         })

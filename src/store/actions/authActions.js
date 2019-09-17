@@ -60,19 +60,22 @@ export const auth = (email, password) => {
         .then(response => {
           // set token in local storage
           const authData = {
-            ...response.data,
-            expires_date: new Date(
-              new Date().getTime() + response.data["expires_in"] * 1000
-            )
+            ...response.data
           };
 
-          console.log(authData.token);
+          console.log(authData);
 
           localStorage.setItem("token", JSON.stringify(authData.token));
+
           dispatch(authSuccess(authData));
 
+          console.log("auth data", dispatch(authSuccess(authData)));
+
           // get user data via token
-          dispatch(userActions.getLoggedUser(authData.token))
+          dispatch(userActions.getLoggedUser());
+
+          console
+            .log(dispatch("logged user", userActions.getLoggedUser()))
             .then(response => {
               // resolve the main promise when user is fetched
               console.log("Get logged user response", response);
@@ -126,7 +129,7 @@ export const authRefreshToken = autologin => {
 
     authService
       .refreshToken({
-        refresh_token: authData["refresh_token"]
+        refresh_token: "Bearer " + authData
       })
       .then(response => {
         const authData = {
@@ -135,6 +138,8 @@ export const authRefreshToken = autologin => {
             new Date().getTime() + response.data["expires_in"] * 1000
           )
         };
+
+        console.log(authData);
 
         localStorage.setItem("token", JSON.stringify(authData));
         dispatch(authSuccess(response.data));
