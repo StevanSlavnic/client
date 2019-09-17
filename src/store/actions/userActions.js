@@ -18,15 +18,17 @@ export const unsetLoggedUser = () => {
 export const getLoggedUser = () => {
   return dispatch => {
     const token = localStorage.getItem("token");
-    console.log(token);
+
     if (!token) {
       // @TODO autorefresh on expire token, added some logic. Remove this comment if this works
       dispatch(logout());
     } else {
       const tokenData = JSON.parse(token);
-      console.log("token data", tokenData);
+
+      const tokenParsed = tokenData.token;
+
       return userService
-        .getLoggedUser(tokenData)
+        .getLoggedUser(tokenParsed)
         .then(response => {
           console.log(response.data);
           dispatch(setLoggedInUser(response.data));

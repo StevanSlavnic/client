@@ -92,11 +92,14 @@ class App extends React.PureComponent {
     }
 
     // approved routes
-    const loggedUserRoutes = [{ path: "/logout", component: container.Logout }];
+    const loggedUserRoutes = [
+      { path: "/admin", component: container.AdminPanel },
+      { path: "/logout", component: container.Logout }
+    ];
 
     let routes = [...publicRoutes, ...(userIsLogged ? loggedUserRoutes : [])];
 
-    let redirection = <Redirect to={userIsLogged ? "/" : "/"} />;
+    let redirection = <Redirect to={userIsLogged ? "/admin" : "/"} />;
 
     const appMarkup = (
       <Layout>

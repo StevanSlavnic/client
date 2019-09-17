@@ -63,19 +63,12 @@ export const auth = (email, password) => {
             ...response.data
           };
 
-          console.log(authData);
+          localStorage.setItem("token", JSON.stringify(authData));
 
-          localStorage.setItem("token", JSON.stringify(authData.token));
-
-          dispatch(authSuccess(authData));
-
-          console.log("auth data", dispatch(authSuccess(authData)));
+          dispatch(authSuccess(response.data));
 
           // get user data via token
-          dispatch(userActions.getLoggedUser());
-
-          console
-            .log(dispatch("logged user", userActions.getLoggedUser()))
+          dispatch(userActions.getLoggedUser())
             .then(response => {
               // resolve the main promise when user is fetched
               console.log("Get logged user response", response);
@@ -127,9 +120,11 @@ export const authRefreshToken = autologin => {
     if (localStorage.getItem("token") === null) return;
     const authData = JSON.parse(localStorage.getItem("token"));
 
+    console.log(authData);
+
     authService
       .refreshToken({
-        refresh_token: "Bearer " + authData
+        refresh_token: "Bearer " + authData.token
       })
       .then(response => {
         const authData = {

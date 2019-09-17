@@ -62,14 +62,6 @@ class Auth extends Component {
     }
   };
 
-  closeModal = () => {
-    this.setState({ modalOpened: false });
-  };
-
-  openModal = () => {
-    this.setState({ modalOpened: true });
-  };
-
   toggleShowPassword() {
     const stateClone = clone(this.state);
 
@@ -124,12 +116,6 @@ class Auth extends Component {
 
         .then(response => {
           console.log("[Auth] Success", response);
-          // if user is comming from an email and wasn't logged in we remebered his aimed location
-          // in the 'redirect' query params, so after the successful login redirect him to that route
-          const query = new URLSearchParams(this.props.location.search);
-          const redirected = query.get("redirect");
-          const history = this.props.history;
-          history.push(redirected ? redirected : "/");
         })
 
         .catch(err => {

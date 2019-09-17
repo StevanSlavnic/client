@@ -12,18 +12,14 @@ export const login = data => {
     ...data
   };
 
-  console.log(params);
-
   return axiosInstance.post(url, params);
 };
 
 export const refreshToken = data => {
-  const url = "/users/show";
+  const url = "/users/show/refresh";
   const params = {
     ...data
   };
-
-  console.log(params);
 
   return axiosInstance.post(url, params);
 };
