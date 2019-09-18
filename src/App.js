@@ -93,6 +93,7 @@ class App extends React.PureComponent {
 
     // approved routes
     const loggedUserRoutes = [
+      { path: "/", exact: true, component: container.Homepage },
       { path: "/admin", component: container.AdminPanel },
       { path: "/logout", component: container.Logout }
     ];

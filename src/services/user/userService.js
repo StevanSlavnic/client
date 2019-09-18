@@ -6,11 +6,6 @@ import axiosInstance from "../axiosDefaultInstance";
  * @returns {AxiosPromise<any>}
  */
 export const getLoggedUser = token => {
-  // const config = {
-  //   headers: {
-
-  //   }
-  // };
   const config = (axiosInstance.defaults.headers.common[
     "Authorization"
   ] = `Bearer ${token}`);

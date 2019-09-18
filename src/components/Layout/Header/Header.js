@@ -13,17 +13,22 @@ class Header extends Component {
   }
 
   render() {
-    console.log(this.props.user);
-
     return (
       <div className={classes.Header}>
-        <div>FindYourService.com</div>
+        <div>
+          <Link to="/">FindYourService.com</Link>
+        </div>
         <div>
           <nav className={classes.Nav}>
             {this.props.user ? (
-              <Link to="/logout" className={classes.Link}>
-                Logout
-              </Link>
+              <div>
+                <Link to="/admin" className={classes.Link}>
+                  Admin
+                </Link>
+                <Link to="/logout" className={classes.Link}>
+                  Logout
+                </Link>
+              </div>
             ) : (
               <Link to="/auth" className={classes.Link}>
                 Login
@@ -45,7 +50,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    snackbarAdd: snackConf => dispatch(actions.snackbarAdd(snackConf)),
     updateLoggedUser: () => dispatch(actions.getLoggedUser())
   };
 };

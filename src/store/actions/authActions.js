@@ -39,13 +39,13 @@ export const logout = () => {
   };
 };
 
-export const checkAuthTimeout = expirationTime => {
-  return dispatch => {
-    setTimeout(() => {
-      dispatch(authRefreshToken());
-    }, expirationTime * 1000);
-  };
-};
+// export const checkAuthTimeout = expirationTime => {
+//   return dispatch => {
+//     setTimeout(() => {
+//       dispatch(authRefreshToken());
+//     }, expirationTime * 1000);
+//   };
+// };
 
 export const auth = (email, password) => {
   return dispatch => {
@@ -80,7 +80,7 @@ export const auth = (email, password) => {
             });
 
           // set token timeout autorefresh
-          dispatch(checkAuthTimeout(response.data["expires_in"]));
+          // dispatch(checkAuthTimeout(response.data["expires_in"]));
         })
         .catch(err => {
           console.log(err);
@@ -99,57 +99,56 @@ export const authCheckState = () => {
       dispatch(logout());
     } else {
       const authData = JSON.parse(token);
-      const expirationDate = new Date(authData["expires_date"]);
+      const expirationDate = new Date(authData.expires_in);
       if (expirationDate <= new Date()) {
-        dispatch(authRefreshToken("autologin"));
+        // dispatch(authRefreshToken("autologin"));
       } else {
         dispatch(authSuccess(authData));
         dispatch(userActions.getLoggedUser());
-        dispatch(
-          checkAuthTimeout(
-            (expirationDate.getTime() - new Date().getTime()) / 1000
-          )
-        );
+        dispatch();
+        // checkAuthTimeout(
+        //   (expirationDate.getTime() - new Date().getTime()) / 1000
+        // )
       }
     }
   };
 };
 
-export const authRefreshToken = autologin => {
-  return dispatch => {
-    if (localStorage.getItem("token") === null) return;
-    const authData = JSON.parse(localStorage.getItem("token"));
+// export const authRefreshToken = autologin => {
+//   return dispatch => {
+//     if (localStorage.getItem("token") === null) return;
+//     const authData = JSON.parse(localStorage.getItem("token"));
 
-    console.log(authData);
+//     console.log(authData);
 
-    authService
-      .refreshToken({
-        refresh_token: "Bearer " + authData.token
-      })
-      .then(response => {
-        const authData = {
-          ...response.data,
-          expires_date: new Date(
-            new Date().getTime() + response.data["expires_in"] * 1000
-          )
-        };
+//     authService
+//       .refreshToken({
+//         refresh_token: "Bearer " + authData.token
+//       })
+//       .then(response => {
+//         const authData = {
+//           ...response.data,
+//           expires_date: new Date(
+//             new Date().getTime() + response.data.expires_in * 1000
+//           )
+//         };
 
-        console.log(authData);
+//         console.log(authData);
 
-        localStorage.setItem("token", JSON.stringify(authData));
-        dispatch(authSuccess(response.data));
-        //if there is autologin flag log the user, if there is no flag it's just a interval refreshing the token and there is no need to check
-        if (autologin) {
-          dispatch(userActions.getLoggedUser());
-        }
-        dispatch(checkAuthTimeout(response.data["expires_in"]));
-      })
-      .catch(err => {
-        console.log("Error while refreshing token", err);
-        dispatch(logout());
-      });
-  };
-};
+//         localStorage.setItem("token", JSON.stringify(authData));
+//         dispatch(authSuccess(response.data));
+//         //if there is autologin flag log the user, if there is no flag it's just a interval refreshing the token and there is no need to check
+//         if (autologin) {
+//           dispatch(userActions.getLoggedUser());
+//         }
+//         dispatch(checkAuthTimeout(response.data["expires_in"]));
+//       })
+//       .catch(err => {
+//         console.log("Error while refreshing token", err);
+//         dispatch(logout());
+//       });
+//   };
+// };
 
 export const authUsingToken = (authTokenData, userData) => {
   return dispatch => {
@@ -162,6 +161,6 @@ export const authUsingToken = (authTokenData, userData) => {
     localStorage.setItem("token", JSON.stringify(authData));
     dispatch(authSuccess(authTokenData));
     dispatch(userActions.setLoggedInUser(userData));
-    dispatch(checkAuthTimeout(authTokenData["expires_in"]));
+    // dispatch(checkAuthTimeout(authTokenData["expires_in"]));
   };
 };
