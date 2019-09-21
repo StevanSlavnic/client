@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { locationsFetchData } from "../../store/actions/locationActions";
+import * as locationService from "../../services/location/locationService";
 
 import Modal from "../../components/UI/Modal/Modal";
 import Button from "../../components/UI/Button/Button";
@@ -13,7 +14,9 @@ class AdminPanel extends Component {
     super(props);
     this.state = {
       modalOpened: false,
-      results: ""
+      modalDeleteOpened: false,
+      results: "",
+      locationId: ""
     };
   }
 
@@ -31,36 +34,59 @@ class AdminPanel extends Component {
     this.setState({ modalOpened: true });
   };
 
+  closeDeleteModal = () => {
+    this.setState({ modalDeleteOpened: false });
+  };
+
+  openDeleteModal = id => {
+    this.setState({ modalDeleteOpened: true });
+    this.getLocationId(id);
+    console.log(id);
+
+    this.setState({
+      locationId: id
+    });
+  };
+
   callbackFunction = childData => {
     this.setState({ results: childData });
   };
 
-  deleteLocation = e => {
-    console.log(e.target.id);
-  };
+  getLocationId(id) {
+    const locationId = id;
+    console.log(locationId);
+    return locationId;
+  }
+
+  handleLocationDelete() {
+    locationService.deleteLocation(this.state.locationId);
+    this.setState({
+      modalDeleteOpened: false
+    });
+  }
 
   render() {
     const locations = this.props.locations.locations
       ? this.props.locations.locations
       : [];
 
-    console.log(locations);
+    console.log(this.state.locationId);
 
-    const passedFunction = a => {
-      console.log(a);
-    };
+    // console.log(passedFunction);
 
-    const locationsRender = () =>
-      locations.map(function(location) {
-        return (
-          <div key={location.id}>
-            <Location
-              location={location}
-              passedFunction={passedFunction}
-            ></Location>
-          </div>
-        );
-      });
+    const locationsRender = locations.map(location => {
+      return (
+        <div key={location.id}>
+          <Location
+            id={location.id}
+            location={location}
+            locationId={() => this.getLocationId(location.id)}
+            // passedFunction={passedFunction}
+            openDeleteModal={this.openDeleteModal}
+          ></Location>
+        </div>
+      );
+    });
 
     return (
       <div>
@@ -68,10 +94,20 @@ class AdminPanel extends Component {
         <Button onClick={this.openModal}>Add Location</Button>
         <Modal open={this.state.modalOpened} onClose={this.closeModal}>
           <GooglePlaces parentCallback={this.callbackFunction} />
-          <FormConfig results={this.state.results} />
+          <FormConfig results={this.state.results} onClose={this.closeModal} />
         </Modal>
 
-        <div>{locationsRender()}</div>
+        <div>{locationsRender}</div>
+        <Modal
+          open={this.state.modalDeleteOpened}
+          onClose={this.closeDeleteModal}
+        >
+          Are you shure you want to delete this Location?
+          <Button onClick={() => this.handleLocationDelete()}>
+            Delete
+          </Button>{" "}
+          <Button onClick={this.closeDeleteModal}>Cancel</Button>
+        </Modal>
       </div>
     );
   }

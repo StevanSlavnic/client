@@ -9,7 +9,6 @@ import { Input } from "@material-ui/core";
 // const google = (window.google = window.google ? window.google : {});
 
 const MY_API_KEY = apiConf.MAP_APY_KEY;
-const google = window && window.google;
 
 class GoogleSuggest extends Component {
   state = {

@@ -13,3 +13,11 @@ export const getAllLocations = () => {
 
   return axiosInstance.get(url);
 };
+
+export const deleteLocation = locationData => {
+  const url = `/locations/${locationData}`;
+
+  console.log(locationData);
+
+  return axiosInstance.delete(url, locationData);
+};

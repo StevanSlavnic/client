@@ -13,12 +13,11 @@ const Modal = React.forwardRef((props, ref) => {
       aria-labelledby="modal"
       aria-describedby="prompt"
       open={props.open}
-      ref={ref}
       onClose={() => {
         props.onClose();
       }}
     >
-      <Card className={[classes.Card, props.className].join(" ")}>
+      <Card className={[classes.Card, props.className].join(" ")} ref={ref}>
         <IconButton className={classes.CloseButton} onClick={props.onClose}>
           <img className={classes.Icon} src={Delete} alt="X mark" />
         </IconButton>

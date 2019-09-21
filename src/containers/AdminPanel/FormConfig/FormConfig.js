@@ -59,6 +59,7 @@ class FormConfig extends Component {
           setTimeout(() => {
             console.log(JSON.stringify(values, null, 2));
             setSubmitting(false);
+            this.props.onClose();
           }, 400);
         }}
         validate={values => {
