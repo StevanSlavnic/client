@@ -85,7 +85,7 @@ class App extends React.PureComponent {
           exact: true,
           component: container.Auth
         },
-
+        { path: "/admin", component: container.AdminPanel },
         { path: "/auth/confirm", component: container.ConfirmToken },
         { path: "/", exact: true, component: container.Homepage }
       );
