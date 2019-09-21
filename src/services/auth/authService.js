@@ -1,5 +1,4 @@
 import axiosInstance from "../axiosDefaultInstance";
-import apiConf from "../../utils/apiConfig";
 
 /**
  * login user call

@@ -13,6 +13,7 @@ import * as serviceWorker from "./serviceWorker";
 import reducerAuth from "./store/reducers/authReducer";
 import reducerUser from "./store/reducers/userReducer";
 import reducerSnackbar from "./store/reducers/snackbarReducer";
+import reducerLocations from "./store/reducers/locationReducer";
 
 // @TODO add polyfills modularly via core-js for better optimisation
 //import "babel-polyfill";
@@ -21,6 +22,7 @@ import reducerSnackbar from "./store/reducers/snackbarReducer";
 const rootReducer = combineReducers({
   auth: reducerAuth,
   user: reducerUser,
+  locations: reducerLocations,
   snackbar: reducerSnackbar
 });
 
