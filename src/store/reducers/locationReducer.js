@@ -8,21 +8,6 @@ const setLocations = (state, payload) => {
   return stateCopy;
 };
 
-// const reducer = (state = { isFetching: false }, action) => {
-//   switch (action.type) {
-//     case "LOCATIONS_ARE_LOADING":
-//       const newState = JSON.parse(JSON.stringify(state));
-//       newState.isFetching = true;
-//       return newState;
-//     case "LOCATIONS_FETCH_DATA_SUCCESS":
-//       const newState = JSON.parse(JSON.stringify(state));
-//       newState.isFetching = false;
-//       return newState;
-//     default:
-//       return state;
-//   }
-// };
-
 const reducer = (state = {}, action) => {
   switch (action.type) {
     case "LOCATIONS_FETCH_DATA_SUCCESS":

@@ -15,15 +15,17 @@ class AdminPanel extends Component {
     this.state = {
       modalOpened: false,
       modalDeleteOpened: false,
+      modalEditOpened: false,
       results: "",
-      locationId: ""
+      locationId: "",
+      locationEditId: "",
+      location: ""
     };
   }
 
   componentDidMount() {
     window.scrollTo(0, 0);
     this.props.fetchData("http://127.0.0.1:8093/api/v1/locations");
-    console.log(this.props.locations);
   }
 
   closeModal = () => {
@@ -33,6 +35,42 @@ class AdminPanel extends Component {
   openModal = () => {
     this.setState({ modalOpened: true });
   };
+
+  closeEditModal = () => {
+    this.setState({ modalEditOpened: false });
+  };
+
+  openEditModal = id => {
+    this.setState({ modalEditOpened: true });
+
+    this.getLocationEditId(id);
+    console.log(id);
+
+    this.setState({
+      locationEditId: id
+    });
+
+    setTimeout(() => {
+      locationService
+        .getLocation(this.state.locationEditId)
+        .then(response => {
+          console.log(response.data);
+          this.setState({ location: response.data });
+        })
+        .catch(error => {
+          console.log(error.data);
+        });
+      console.log(this.state.location);
+    }, 400);
+  };
+
+  handleLocationEdit() {
+    // locationService.getLocation(this.state.locationId);
+    // this.setState({
+    //   modalEditOpened: false
+    // });
+    console.log("edit");
+  }
 
   closeDeleteModal = () => {
     this.setState({ modalDeleteOpened: false });
@@ -58,6 +96,12 @@ class AdminPanel extends Component {
     return locationId;
   }
 
+  getLocationEditId(id) {
+    const locationEditId = id;
+    console.log(locationEditId);
+    return locationEditId;
+  }
+
   handleLocationDelete() {
     locationService.deleteLocation(this.state.locationId);
     this.setState({
@@ -70,9 +114,9 @@ class AdminPanel extends Component {
       ? this.props.locations.locations
       : [];
 
-    console.log(this.state.locationId);
+    const location = this.state.location;
 
-    // console.log(passedFunction);
+    const locationId = this.state.locationId;
 
     const locationsRender = locations.map(location => {
       return (
@@ -81,7 +125,8 @@ class AdminPanel extends Component {
             id={location.id}
             location={location}
             locationId={() => this.getLocationId(location.id)}
-            // passedFunction={passedFunction}
+            locationEditId={() => this.getLocationEditId(location.id)}
+            openEditModal={this.openEditModal}
             openDeleteModal={this.openDeleteModal}
           ></Location>
         </div>
@@ -97,7 +142,19 @@ class AdminPanel extends Component {
           <FormConfig results={this.state.results} onClose={this.closeModal} />
         </Modal>
 
-        <div>{locationsRender}</div>
+        <div>{!this.props.locations ? "No locations" : locationsRender}</div>
+
+        <Modal open={this.state.modalEditOpened} onClose={this.closeEditModal}>
+          {/* <GooglePlaces parentCallback={this.callbackFunction} /> */}
+          <FormConfig
+            results={this.state.results}
+            locationEditId={this.state.locationEditId}
+            location={location}
+            type="edit"
+            onCloseEdit={this.closeEditModal}
+          />
+        </Modal>
+
         <Modal
           open={this.state.modalDeleteOpened}
           onClose={this.closeDeleteModal}

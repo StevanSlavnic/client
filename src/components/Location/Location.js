@@ -4,7 +4,8 @@ import classes from "./Location.module.scss";
 import { Button } from "@material-ui/core";
 
 const Location = props => {
-  // console.log(props.passedFunction(props.location.id));
+  console.log(new Date(props.location.created_at));
+  console.log(new Date(props.location.updated_at));
 
   return (
     <Card
@@ -12,13 +13,15 @@ const Location = props => {
       key={props.location.id}
     >
       <Button
-        // onClick={props.deleteLocation}
-        // onClick={(event) => {  props.openDeleteModal; () => props.passedFunction(props.location.id)}}
-
-        // onClick={ () => props.openDeleteModal; props.passedFunction(props.location.id)} }
+        onClick={() => {
+          props.openEditModal(props.location.id);
+        }}
+      >
+        Edit
+      </Button>
+      <Button
         onClick={() => {
           props.openDeleteModal(props.location.id);
-          // props.passedFunction(props.location.id);
         }}
       >
         Delete
