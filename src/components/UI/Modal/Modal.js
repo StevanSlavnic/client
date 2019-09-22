@@ -7,17 +7,18 @@ import classes from "./Modal.module.scss";
 
 const Modal = React.forwardRef((props, ref) => {
   // console.log(props)
+
   return (
     <ModalUI
+      {...props}
+      ref={ref}
       className={classes.Modal}
-      aria-labelledby="modal"
-      aria-describedby="prompt"
       open={props.open}
       onClose={() => {
         props.onClose();
       }}
     >
-      <Card className={[classes.Card, props.className].join(" ")} ref={ref}>
+      <Card className={[classes.Card, props.className].join(" ")}>
         <IconButton className={classes.CloseButton} onClick={props.onClose}>
           <img className={classes.Icon} src={Delete} alt="X mark" />
         </IconButton>

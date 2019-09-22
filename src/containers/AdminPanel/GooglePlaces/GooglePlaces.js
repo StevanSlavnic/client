@@ -1,12 +1,9 @@
 import React, { Component } from "react";
-/* global window.google */
 import ReactGoogleMapLoader from "react-google-maps-loader";
 import ReactGooglePlacesSuggest from "react-google-places-suggest";
 import apiConf from "../../../utils/apiConfig";
 
 import { Input } from "@material-ui/core";
-
-// const google = (window.google = window.google ? window.google : {});
 
 const MY_API_KEY = apiConf.MAP_APY_KEY;
 
@@ -16,10 +13,6 @@ class GoogleSuggest extends Component {
     value: "",
     result: ""
   };
-
-  componentDidMount() {
-    // console.log(google);
-  }
 
   handleInputChange = e => {
     this.setState({ search: e.target.value, value: e.target.value });
@@ -64,9 +57,8 @@ class GoogleSuggest extends Component {
         case "country":
           address.country = c;
           break;
-        /*
-         *   . . .
-         */
+        default:
+          break;
       }
     });
     // console.log(address);

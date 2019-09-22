@@ -4,7 +4,6 @@ import _ from "lodash";
 import * as locationService from "../../../services/location/locationService";
 
 import Button from "../../../components/UI/Button/Button";
-import { Divider } from "@material-ui/core";
 
 class FormConfig extends Component {
   constructor(props) {
@@ -23,7 +22,7 @@ class FormConfig extends Component {
     console.log(props);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const nextPropsCopy = nextProps;
 
     this.setState({

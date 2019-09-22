@@ -4,9 +4,6 @@ import classes from "./Location.module.scss";
 import { Button } from "@material-ui/core";
 
 const Location = props => {
-  console.log(new Date(props.location.created_at));
-  console.log(new Date(props.location.updated_at));
-
   return (
     <Card
       className={[classes.Card, props.className].join(" ")}

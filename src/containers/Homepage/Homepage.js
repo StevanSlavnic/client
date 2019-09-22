@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Search from "../Search/Search";
 
 class Homepage extends Component {
   constructor(props) {
@@ -6,7 +7,11 @@ class Homepage extends Component {
     this.state = {};
   }
   render() {
-    return <div>Homepage</div>;
+    return (
+      <div>
+        <Search></Search>
+      </div>
+    );
   }
 }
 

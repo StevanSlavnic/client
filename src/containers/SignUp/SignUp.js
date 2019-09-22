@@ -1,34 +1,27 @@
 import React, { useState, Fragment, useEffect } from "react";
 import { Formik, Field } from "formik";
-import { connect } from "react-redux";
 import * as authService from "../../services/auth/authService";
-
-import classes from "./Auth.module.scss";
-import * as actions from "../../store/actions/indexActions";
-
-// import s from "./app.component.css";
+import * as yup from "yup";
 
 const intialState = {
+  username: "",
   email: "",
   password: ""
 };
-// const userSchema = yup.object().shape({
-//   name: yup.string().required(),
-//   email: yup
-//     .string()
-//     .email()
-//     .required(),
-//   password: yup
-//     .string()
-//     .required()
-//     .max(13)
-//     .min(8)
-// });
-function AuthForm(props) {
+const userSchema = yup.object().shape({
+  username: yup.string().required(),
+  email: yup
+    .string()
+    .email()
+    .required(),
+  password: yup
+    .string()
+    .required()
+    .max(13)
+    .min(8)
+});
+function SignUp(props) {
   const [user, setUser] = useState(intialState);
-
-  console.log(props);
-
   return (
     <Fragment>
       <Formik
@@ -36,24 +29,29 @@ function AuthForm(props) {
         onSubmit={(values, actions) => {
           actions.setSubmitting(true);
           setUser(values);
-          authService.login(values);
-          props
-            .onAuth(values.email, values.password)
-
+          authService
+            .create(values)
             .then(response => {
-              console.log("[Auth] Success", response);
+              console.log(response.data);
+              setTimeout(() => {
+                const activationToken = response.data.user.activationToken;
+                authService
+                  .confirm(activationToken)
+                  .then(response => {
+                    console.log(response.data);
+                    props.history.push("/");
+                  })
+                  .catch(error => {
+                    console.log(error.data);
+                  });
+              }, 1000);
             })
-
-            .catch(err => {
-              console.log("[Auth] error", err);
-              // this.setState({ loading: false });
+            .catch(error => {
+              console.log(error.data);
             });
-
-          setTimeout(() => {
-            actions.setSubmitting(false);
-          }, 2000);
+          console.log(user);
         }}
-        // validationSchema={userSchema}
+        validationSchema={userSchema}
       >
         {props =>
           !props.isSubmitting ? (
@@ -98,12 +96,19 @@ function AuthForm(props) {
               ) : (
                 ""
               )}
-
-              {props.errors.name && props.touched.name ? (
+              <Field
+                name="username"
+                onChange={props.handleChange}
+                value={props.values.username}
+                type="text"
+                placeholder="Username"
+                // className={s.text_field}
+              />
+              {props.errors.username && props.touched.username ? (
                 <span
                 // className={s.field_text}
                 >
-                  {props.errors.name}
+                  {props.errors.username}
                 </span>
               ) : (
                 ""
@@ -127,20 +132,4 @@ function AuthForm(props) {
   );
 }
 
-const mapStateToProps = state => {
-  return {
-    userData: state.user,
-    token: state.auth.accessToken
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    onAuth: (email, password) => dispatch(actions.auth(email, password))
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AuthForm);
+export default SignUp;

@@ -64,14 +64,6 @@ class AdminPanel extends Component {
     }, 400);
   };
 
-  handleLocationEdit() {
-    // locationService.getLocation(this.state.locationId);
-    // this.setState({
-    //   modalEditOpened: false
-    // });
-    console.log("edit");
-  }
-
   closeDeleteModal = () => {
     this.setState({ modalDeleteOpened: false });
   };
@@ -116,8 +108,6 @@ class AdminPanel extends Component {
 
     const location = this.state.location;
 
-    const locationId = this.state.locationId;
-
     const locationsRender = locations.map(location => {
       return (
         <div key={location.id}>
@@ -145,7 +135,7 @@ class AdminPanel extends Component {
         <div>{!this.props.locations ? "No locations" : locationsRender}</div>
 
         <Modal open={this.state.modalEditOpened} onClose={this.closeEditModal}>
-          {/* <GooglePlaces parentCallback={this.callbackFunction} /> */}
+          <GooglePlaces parentCallback={this.callbackFunction} />
           <FormConfig
             results={this.state.results}
             locationEditId={this.state.locationEditId}

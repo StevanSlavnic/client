@@ -11,8 +11,6 @@ export const editLocation = (location, locationData) => {
 
   console.log(url);
 
-  // console.log(payload);
-
   return axiosInstance.put(url, locationData);
 };
 
