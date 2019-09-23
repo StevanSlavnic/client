@@ -1,5 +1,10 @@
 import React, { Component } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { connect } from "react-redux";
+import {
+  locationCreating,
+  locationEdit
+} from "../../../store/actions/locationActions";
 import _ from "lodash";
 import * as locationService from "../../../services/location/locationService";
 
@@ -51,7 +56,7 @@ class FormConfig extends Component {
   componentDidMount() {
     if (this.props.type === "edit") {
       setTimeout(() => {
-        console.log(this.props);
+        // console.log(this.props);
         this.setState({
           title: this.props.location.title,
           description: this.props.location.description,
@@ -76,16 +81,20 @@ class FormConfig extends Component {
   render() {
     return (
       <div>
-        {/* <span onClick={this.editData}>sasas</span> */}
         <Formik
           enableReinitialize
           initialValues={this.state}
           // validate={validate(validationSchema)}
           // onSubmit={onSubmit}
           onSubmit={(values, { setSubmitting }) => {
+            const location = values;
             this.props.type === "edit"
-              ? locationService.editLocation(this.props.locationEditId, values)
-              : locationService.createLocation(values);
+              ? this.props.editLocation(this.props.locationEditId, values) &&
+                locationService.editLocation(this.props.locationEditId, values)
+              : locationService.createLocation(values).then(response => {
+                  const data = response.data;
+                  this.props.createLocation(data);
+                });
 
             const closeModal = () =>
               this.props.type === "edit"
@@ -248,4 +257,21 @@ class FormConfig extends Component {
   }
 }
 
-export default FormConfig;
+const mapStateToProps = state => {
+  return {
+    locations: state.locations,
+    isLoading: state.locationsAreLoading
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    createLocation: location => dispatch(locationCreating(location)),
+    editLocation: (id, location) => dispatch(locationEdit(id, location))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FormConfig);
