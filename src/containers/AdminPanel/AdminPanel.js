@@ -12,6 +12,7 @@ import Button from "../../components/UI/Button/Button";
 import FormConfig from "./FormConfig/FormConfig";
 import GooglePlaces from "./GooglePlaces/GooglePlaces";
 import Location from "../../components/Location/Location";
+import classes from "../AdminPanel/AdminPanel.module.scss";
 
 class AdminPanel extends Component {
   constructor(props) {
@@ -134,14 +135,22 @@ class AdminPanel extends Component {
       <div>
         <h1>Admin panel</h1>
         <Button onClick={this.openModal}>Add Location</Button>
-        <Modal open={this.state.modalOpened} onClose={this.closeModal}>
+        <Modal
+          open={this.state.modalOpened}
+          onClose={this.closeModal}
+          className={classes.ModalWide}
+        >
           <GooglePlaces parentCallback={this.callbackFunction} />
           <FormConfig results={this.state.results} onClose={this.closeModal} />
         </Modal>
 
         <div>{!this.props.locations ? "No locations" : locationsRender}</div>
 
-        <Modal open={this.state.modalEditOpened} onClose={this.closeEditModal}>
+        <Modal
+          open={this.state.modalEditOpened}
+          onClose={this.closeEditModal}
+          className={classes.ModalWide}
+        >
           <GooglePlaces parentCallback={this.callbackFunction} />
           <FormConfig
             results={this.state.results}

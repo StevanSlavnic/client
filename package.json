@@ -9,6 +9,7 @@
     "dotenv": "^8.1.0",
     "dotenv-expand": "^5.1.0",
     "formik": "^1.5.8",
+    "formik-material-fields": "^0.0.6",
     "lodash": "^4.17.15",
     "lodash.clonedeep": "^4.5.0",
     "node-sass": "^4.12.0",

@@ -1,6 +1,9 @@
 import React, { useState, Fragment, useEffect } from "react";
 import { Formik, Field } from "formik";
 import * as authService from "../../services/auth/authService";
+import { FormikTextField } from "formik-material-fields";
+import Card from "./../../components/UI/Card/Card";
+import Button from "./../../components/UI/Button/Button";
 import * as yup from "yup";
 
 const intialState = {
@@ -9,7 +12,11 @@ const intialState = {
   password: ""
 };
 const userSchema = yup.object().shape({
-  username: yup.string().required(),
+  username: yup
+    .string()
+    .required()
+    .max(60)
+    .min(2),
   email: yup
     .string()
     .email()
@@ -20,10 +27,11 @@ const userSchema = yup.object().shape({
     .max(13)
     .min(8)
 });
+
 function SignUp(props) {
   const [user, setUser] = useState(intialState);
   return (
-    <Fragment>
+    <Card>
       <Formik
         initialValues={user}
         onSubmit={(values, actions) => {
@@ -49,86 +57,55 @@ function SignUp(props) {
             .catch(error => {
               console.log(error.data);
             });
-          console.log(user);
         }}
         validationSchema={userSchema}
       >
         {props =>
           !props.isSubmitting ? (
-            <form
-              onSubmit={props.handleSubmit}
-              // className={s.form}
-            >
-              <Field
-                type="email"
-                placeholder="Enter email"
-                onChange={props.handleChange}
-                name="email"
-                value={props.values.email}
-                // className={s.text_field}
-              />
-
-              {props.errors.email && props.touched.email ? (
-                <span
-                // className={s.field_text}
-                >
-                  {props.errors.email}
-                </span>
-              ) : (
-                ""
-              )}
-
-              <Field
-                type="password"
-                onChange={props.handleChange}
-                name="password"
-                value={props.values.password}
-                placeholder="Password"
-                // className={s.text_field}
-              />
-
-              {props.errors.password && props.touched.password ? (
-                <span
-                // className={s.field_text}
-                >
-                  {props.errors.password}
-                </span>
-              ) : (
-                ""
-              )}
-              <Field
+            <form onSubmit={props.handleSubmit}>
+              <FormikTextField
                 name="username"
+                type="text"
+                label="Username"
+                margin="normal"
                 onChange={props.handleChange}
                 value={props.values.username}
-                type="text"
-                placeholder="Username"
-                // className={s.text_field}
+                fullWidth
               />
-              {props.errors.username && props.touched.username ? (
-                <span
-                // className={s.field_text}
-                >
-                  {props.errors.username}
-                </span>
-              ) : (
-                ""
-              )}
-              <button
+
+              <FormikTextField
+                name="email"
+                type="email"
+                label="Email"
+                margin="normal"
+                onChange={props.handleChange}
+                value={props.values.email}
+                fullWidth
+              />
+
+              <FormikTextField
+                name="password"
+                type="password"
+                label="Password"
+                margin="normal"
+                onChange={props.handleChange}
+                value={props.values.password}
+                fullWidth
+              />
+
+              <Button
                 type="submit"
                 disabled={!props.dirty && props.isSubmitting}
-                // className={`${s.button} ${s.submit_button}`}
               >
                 Submit
-              </button>
+              </Button>
             </form>
           ) : (
-            <div
-            // className={s.overlay}
-            />
+            <div />
           )
         }
       </Formik>
-    </Fragment>
+    </Card>
   );
 }
 
