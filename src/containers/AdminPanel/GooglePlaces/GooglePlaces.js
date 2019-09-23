@@ -1,15 +1,11 @@
 import React, { Component } from "react";
-/* global window.google */
 import ReactGoogleMapLoader from "react-google-maps-loader";
 import ReactGooglePlacesSuggest from "react-google-places-suggest";
 import apiConf from "../../../utils/apiConfig";
-
+import { FormikTextField } from "formik-material-fields";
 import { Input } from "@material-ui/core";
 
-// const google = (window.google = window.google ? window.google : {});
-
 const MY_API_KEY = apiConf.MAP_APY_KEY;
-const google = window && window.google;
 
 class GoogleSuggest extends Component {
   state = {
@@ -17,10 +13,6 @@ class GoogleSuggest extends Component {
     value: "",
     result: ""
   };
-
-  componentDidMount() {
-    // console.log(google);
-  }
 
   handleInputChange = e => {
     this.setState({ search: e.target.value, value: e.target.value });
@@ -65,9 +57,8 @@ class GoogleSuggest extends Component {
         case "country":
           address.country = c;
           break;
-        /*
-         *   . . .
-         */
+        default:
+          break;
       }
     });
     // console.log(address);
@@ -105,19 +96,17 @@ class GoogleSuggest extends Component {
               onNoResult={this.handleNoResult}
               onSelectSuggest={this.handleSelectSuggest}
               onStatusUpdate={this.handleStatusUpdate}
-              textNoResults="My custom no results text"
+              textNoResults="No results"
               customRender={prediction => (
                 <div className="customWrapper">
-                  {prediction
-                    ? prediction.description
-                    : "My custom no results text"}
+                  {prediction ? prediction.description : "No results"}
                 </div>
               )}
             >
               <Input
                 type="text"
                 value={value}
-                placeholder="Search a location"
+                placeholder="Search place"
                 onChange={this.handleInputChange}
               />
             </ReactGooglePlacesSuggest>

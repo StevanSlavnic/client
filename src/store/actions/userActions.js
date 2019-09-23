@@ -40,9 +40,3 @@ export const getLoggedUser = () => {
     }
   };
 };
-
-export const forgotPasswordUser = () => {
-  return {
-    type: actionTypes.USER_FORGOT_PASS
-  };
-};

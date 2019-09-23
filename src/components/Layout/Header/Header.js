@@ -30,9 +30,14 @@ class Header extends Component {
                 </Link>
               </div>
             ) : (
-              <Link to="/auth" className={classes.Link}>
-                Login
-              </Link>
+              <div>
+                <Link to="/register" className={classes.Link}>
+                  Register
+                </Link>
+                <Link to="/auth" className={classes.Link}>
+                  Login
+                </Link>
+              </div>
             )}
           </nav>
         </div>

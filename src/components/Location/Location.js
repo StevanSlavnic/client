@@ -4,16 +4,25 @@ import classes from "./Location.module.scss";
 import { Button } from "@material-ui/core";
 
 const Location = props => {
-  console.log(props);
-
   return (
     <Card
       className={[classes.Card, props.className].join(" ")}
       key={props.location.id}
     >
-      <Button>Edit</Button>
-      <Button onClick={props.passedFunction(props.location.id)}>delete</Button>
-
+      <Button
+        onClick={() => {
+          props.openEditModal(props.location.id);
+        }}
+      >
+        Edit
+      </Button>
+      <Button
+        onClick={() => {
+          props.openDeleteModal(props.location.id);
+        }}
+      >
+        Delete
+      </Button>
       <div>{props.location.id}</div>
       <div>{props.location.title}</div>
       <div>{props.location.description}</div>

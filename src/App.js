@@ -8,12 +8,11 @@ import {
   getReturnToUrlToken,
   deleteReturnToUrlToken
 } from "./utils/redirectTo";
+import { locationsFetchData } from "./store/actions/locationActions";
 // containers
 import * as container from "./containers/indexContainers";
 // components
 import Layout from "./components/Layout/Layout";
-
-const intervalAutorefresh = fn => setInterval(fn, 20000);
 
 class App extends React.PureComponent {
   componentDidMount() {
@@ -27,6 +26,8 @@ class App extends React.PureComponent {
         mainDOMContainer.scrollTo(0, 0);
       }
     });
+
+    this.props.fetchData("http://127.0.0.1:8093/api/v1/locations");
   }
 
   updateUserData = () => {
@@ -39,7 +40,6 @@ class App extends React.PureComponent {
     // and remeber where he came from in the query to redirect him to the proper page after sign-in inside auth component
     const query = new URLSearchParams(this.props.location.search);
     const redirected = query.get("redirect");
-    // const anchorHash = query.get('commentId');
 
     if (
       redirected &&
@@ -50,13 +50,6 @@ class App extends React.PureComponent {
         pathname: "/auth",
         search: "?redirect=" + this.props.location.pathname
       });
-    }
-
-    // setting interval for logged in user and removing it for public one. @TODO create socket to update with less payload
-    if (this.props.loggedUser && !this.userRefreshData) {
-      this.userRefreshData = intervalAutorefresh(this.updateUserData);
-    } else if (!this.props.loggedUser && this.userRefreshData) {
-      clearInterval(this.userRefreshData);
     }
 
     // return the user to the private URL he wanted to access while he was a public user (before login/signup)
@@ -80,13 +73,13 @@ class App extends React.PureComponent {
     // exclusively public routes
     if (!userIsLogged) {
       publicRoutes.push(
+        { path: "/register", component: container.SignUp },
         {
           path: "/auth",
           exact: true,
           component: container.Auth
         },
-        { path: "/admin", component: container.AdminPanel },
-        { path: "/auth/confirm", component: container.ConfirmToken },
+
         { path: "/", exact: true, component: container.Homepage }
       );
     }
@@ -120,6 +113,8 @@ class App extends React.PureComponent {
         </Switch>
       </Layout>
     );
+
+    console.log(this.props);
     return (
       // @TODO h1 loader is just a placeholder
       <React.Fragment>
@@ -144,7 +139,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onTryAutoSignup: () => dispatch(actions.authCheckState()),
-    updateLoggedUser: () => dispatch(actions.getLoggedUser())
+    updateLoggedUser: () => dispatch(actions.getLoggedUser()),
+    fetchData: url => dispatch(locationsFetchData(url))
   };
 };
 

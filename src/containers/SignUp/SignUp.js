@@ -1,20 +1,22 @@
 import React, { useState, Fragment, useEffect } from "react";
-import { connect } from "react-redux";
-import * as authService from "../../services/auth/authService";
-import * as actions from "../../store/actions/indexActions";
-
 import { Formik, Field } from "formik";
+import * as authService from "../../services/auth/authService";
 import { FormikTextField } from "formik-material-fields";
-import Button from "./../../components/UI/Button/Button";
 import Card from "./../../components/UI/Card/Card";
+import Button from "./../../components/UI/Button/Button";
 import * as yup from "yup";
 
 const intialState = {
+  username: "",
   email: "",
   password: ""
 };
-
 const userSchema = yup.object().shape({
+  username: yup
+    .string()
+    .required()
+    .max(60)
+    .min(2),
   email: yup
     .string()
     .email()
@@ -26,11 +28,8 @@ const userSchema = yup.object().shape({
     .min(8)
 });
 
-function AuthForm(props) {
+function SignUp(props) {
   const [user, setUser] = useState(intialState);
-
-  console.log(props);
-
   return (
     <Card>
       <Formik
@@ -38,21 +37,26 @@ function AuthForm(props) {
         onSubmit={(values, actions) => {
           actions.setSubmitting(true);
           setUser(values);
-          authService.login(values);
-          props
-            .onAuth(values.email, values.password)
-
+          authService
+            .create(values)
             .then(response => {
-              console.log("[Auth] Success", response);
+              console.log(response.data);
+              setTimeout(() => {
+                const activationToken = response.data.user.activationToken;
+                authService
+                  .confirm(activationToken)
+                  .then(response => {
+                    console.log(response.data);
+                    props.history.push("/");
+                  })
+                  .catch(error => {
+                    console.log(error.data);
+                  });
+              }, 1000);
             })
-
-            .catch(err => {
-              console.log("[Auth] error", err);
+            .catch(error => {
+              console.log(error.data);
             });
-
-          setTimeout(() => {
-            actions.setSubmitting(false);
-          }, 2000);
         }}
         validationSchema={userSchema}
       >
@@ -60,9 +64,20 @@ function AuthForm(props) {
           !props.isSubmitting ? (
             <form onSubmit={props.handleSubmit}>
               <FormikTextField
+                name="username"
+                type="text"
+                label="Username"
+                margin="normal"
+                onChange={props.handleChange}
+                value={props.values.username}
+                fullWidth
+              />
+
+              <FormikTextField
                 name="email"
                 type="email"
                 label="Email"
+                margin="normal"
                 onChange={props.handleChange}
                 value={props.values.email}
                 fullWidth
@@ -72,6 +87,7 @@ function AuthForm(props) {
                 name="password"
                 type="password"
                 label="Password"
+                margin="normal"
                 onChange={props.handleChange}
                 value={props.values.password}
                 fullWidth
@@ -93,20 +109,4 @@ function AuthForm(props) {
   );
 }
 
-const mapStateToProps = state => {
-  return {
-    userData: state.user,
-    token: state.auth.accessToken
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    onAuth: (email, password) => dispatch(actions.auth(email, password))
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AuthForm);
+export default SignUp;

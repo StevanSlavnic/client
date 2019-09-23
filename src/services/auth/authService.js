@@ -5,6 +5,22 @@ import axiosInstance from "../axiosDefaultInstance";
  * @param data {email, password}
  * @returns {AxiosPromise<any>}
  */
+
+export const create = data => {
+  const url = "/users/create";
+  const params = {
+    ...data
+  };
+
+  return axiosInstance.post(url, params);
+};
+
+export const confirm = data => {
+  const url = `/auth/confirm/${data}`;
+
+  return axiosInstance.get(url, data);
+};
+
 export const login = data => {
   const url = "/auth/login";
   const params = {
@@ -12,24 +28,4 @@ export const login = data => {
   };
 
   return axiosInstance.post(url, params);
-};
-
-export const refreshToken = data => {
-  const url = "/users/show/refresh";
-  const params = {
-    ...data
-  };
-
-  return axiosInstance.post(url, params);
-};
-
-export const confirmEmail = code => {
-  const url = "/user/confirm";
-  const params = {
-    token: code
-  };
-
-  console.log(params);
-
-  return axiosInstance.patch(url, params);
 };

@@ -14,41 +14,6 @@ const styles = {
 
 const Input = props => {
   const { classes } = props;
-  // icon inside the input is called adornment. Can be set on the end or on the start
-  const adornment = () => {
-    if (props.config.adornment) {
-      const side =
-        props.config.adornment.position === "end"
-          ? "endAdornment"
-          : "startAdornment";
-      return {
-        [side]: props.config.adornment.icon()
-      };
-    }
-  };
-
-  // JSX for character counter, appearing in helperText label if specified in the config on input as charCount
-  const CharCounter = () => {
-    if (props.config.charCounter) {
-      const limit = props.config.charCounter;
-      const style = {
-        position: "absolute",
-        top: 0,
-        right: 0,
-        color: props.config.value
-          ? props.config.value.length > limit
-            ? color.red
-            : color.grey
-          : color.grey
-      };
-      return (
-        <span style={style}>{`${
-          props.config.value ? props.config.value.length : 0
-        }/${limit}`}</span>
-      );
-    }
-    return "";
-  };
 
   const selectDisplayRender = props.renderVal
     ? { renderValue: () => props.renderVal }
@@ -73,11 +38,6 @@ const Input = props => {
       select={props.config.select}
       fullWidth={true}
       multiline={props.config.type === "textarea"}
-      // keep helper text height fixed by always providing the value, so there won't be movment in the DOM on error msg on/off
-      helperText={[
-        props.config.error || props.config.infolabel || " ",
-        CharCounter()
-      ]}
       value={props.config.value || ""}
       // if it's a group of inputs highlight all of them on error
       error={Boolean(props.config.error || props.config.groupError)}
@@ -97,7 +57,6 @@ const Input = props => {
       InputProps={{
         labelWidth: 0,
         margin: "dense",
-        ...adornment(),
         style:
           props.config.type === "textarea"
             ? {

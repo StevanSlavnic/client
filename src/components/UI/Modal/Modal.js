@@ -7,13 +7,13 @@ import classes from "./Modal.module.scss";
 
 const Modal = React.forwardRef((props, ref) => {
   // console.log(props)
+
   return (
     <ModalUI
-      className={classes.Modal}
-      aria-labelledby="modal"
-      aria-describedby="prompt"
-      open={props.open}
+      {...props}
       ref={ref}
+      className={classes.Modal}
+      open={props.open}
       onClose={() => {
         props.onClose();
       }}
