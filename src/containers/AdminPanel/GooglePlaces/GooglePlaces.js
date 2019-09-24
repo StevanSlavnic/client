@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ReactGoogleMapLoader from "react-google-maps-loader";
 import ReactGooglePlacesSuggest from "react-google-places-suggest";
 import apiConf from "../../../utils/apiConfig";
-
+import { FormikTextField } from "formik-material-fields";
 import { Input } from "@material-ui/core";
 
 const MY_API_KEY = apiConf.MAP_APY_KEY;
@@ -96,19 +96,17 @@ class GoogleSuggest extends Component {
               onNoResult={this.handleNoResult}
               onSelectSuggest={this.handleSelectSuggest}
               onStatusUpdate={this.handleStatusUpdate}
-              textNoResults="My custom no results text"
+              textNoResults="No results"
               customRender={prediction => (
                 <div className="customWrapper">
-                  {prediction
-                    ? prediction.description
-                    : "My custom no results text"}
+                  {prediction ? prediction.description : "No results"}
                 </div>
               )}
             >
               <Input
                 type="text"
                 value={value}
-                placeholder="Search a location"
+                placeholder="Search place"
                 onChange={this.handleInputChange}
               />
             </ReactGooglePlacesSuggest>

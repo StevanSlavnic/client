@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
   locationsFetchData,
-  locationDelete
+  locationRemove
+  // locationEdit
 } from "../../store/actions/locationActions";
 import * as locationService from "../../services/location/locationService";
 
@@ -11,6 +12,7 @@ import Button from "../../components/UI/Button/Button";
 import FormConfig from "./FormConfig/FormConfig";
 import GooglePlaces from "./GooglePlaces/GooglePlaces";
 import Location from "../../components/Location/Location";
+import classes from "../AdminPanel/AdminPanel.module.scss";
 
 class AdminPanel extends Component {
   constructor(props) {
@@ -22,7 +24,8 @@ class AdminPanel extends Component {
       results: "",
       locationId: "",
       locationEditId: "",
-      location: ""
+      location: "",
+      locations: ""
     };
   }
 
@@ -47,7 +50,6 @@ class AdminPanel extends Component {
     this.setState({ modalEditOpened: true });
 
     this.getLocationEditId(id);
-    console.log(id);
 
     this.setState({
       locationEditId: id
@@ -57,13 +59,11 @@ class AdminPanel extends Component {
       locationService
         .getLocation(this.state.locationEditId)
         .then(response => {
-          console.log(response.data);
           this.setState({ location: response.data });
         })
         .catch(error => {
           console.log(error.data);
         });
-      console.log(this.state.location);
     }, 400);
   };
 
@@ -74,7 +74,6 @@ class AdminPanel extends Component {
   openDeleteModal = id => {
     this.setState({ modalDeleteOpened: true });
     this.getLocationId(id);
-    console.log(id);
 
     this.setState({
       locationId: id
@@ -87,28 +86,32 @@ class AdminPanel extends Component {
 
   getLocationId(id) {
     const locationId = id;
-    console.log(locationId);
+
     return locationId;
   }
 
   getLocationEditId(id) {
     const locationEditId = id;
-    console.log(locationEditId);
+
     return locationEditId;
   }
 
   handleLocationDelete() {
     locationService.deleteLocation(this.state.locationId);
+    this.props.removeLocation(this.state.locationId);
     this.setState({
       modalDeleteOpened: false
     });
-    this.props.locationDelete(this.state.locationId);
   }
 
   render() {
-    const locations = this.props.locations.locations
-      ? this.props.locations.locations
-      : [];
+    const {
+      locations: { locations }
+    } = this.props;
+
+    // console.log(this.props.editLocation(this.state.locationEditId));
+
+    // const editLocation = ;
 
     const location = this.state.location;
 
@@ -122,6 +125,7 @@ class AdminPanel extends Component {
             locationEditId={() => this.getLocationEditId(location.id)}
             openEditModal={this.openEditModal}
             openDeleteModal={this.openDeleteModal}
+            locationEditAction={""}
           ></Location>
         </div>
       );
@@ -131,14 +135,22 @@ class AdminPanel extends Component {
       <div>
         <h1>Admin panel</h1>
         <Button onClick={this.openModal}>Add Location</Button>
-        <Modal open={this.state.modalOpened} onClose={this.closeModal}>
+        <Modal
+          open={this.state.modalOpened}
+          onClose={this.closeModal}
+          className={classes.ModalWide}
+        >
           <GooglePlaces parentCallback={this.callbackFunction} />
           <FormConfig results={this.state.results} onClose={this.closeModal} />
         </Modal>
 
         <div>{!this.props.locations ? "No locations" : locationsRender}</div>
 
-        <Modal open={this.state.modalEditOpened} onClose={this.closeEditModal}>
+        <Modal
+          open={this.state.modalEditOpened}
+          onClose={this.closeEditModal}
+          className={classes.ModalWide}
+        >
           <GooglePlaces parentCallback={this.callbackFunction} />
           <FormConfig
             results={this.state.results}
@@ -167,14 +179,15 @@ class AdminPanel extends Component {
 const mapStateToProps = state => {
   return {
     locations: state.locations,
-    isLoading: state.locationsAreLoading
+    isLoading: state.locationsAreLoading,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     fetchData: url => dispatch(locationsFetchData(url)),
-    locationDelete: index => dispatch(locationDelete(index))
+    removeLocation: id => dispatch(locationRemove(id))
+    // editLocation: id => dispatch(locationEdit(id))
   };
 };
 

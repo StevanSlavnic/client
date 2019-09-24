@@ -1,4 +1,26 @@
-import * as actionTypes from "./actionTypes";
+export function locationCreating(location) {
+  console.log(location);
+  return {
+    type: "LOCATIONS_CREATE",
+    location
+  };
+}
+
+export function locationEditing(id, location) {
+  console.log(location);
+  return {
+    type: "LOCATIONS_EDITING",
+    id,
+    location
+  };
+}
+
+export function locationDeleting(id) {
+  return {
+    type: "LOCATIONS_DELETING",
+    id
+  };
+}
 
 export function locationsAreLoading(bool) {
   return {
@@ -14,10 +36,17 @@ export function locationsFetchDataSuccess(locations) {
   };
 }
 
-export function locationDelete(id) {
-  return {
-    type: actionTypes.LOCATION_DELETE,
-    id: id
+export function locationEdit(id, location) {
+  return dispatch => {
+    dispatch(locationEditing(id, location));
+    fetch(id, location);
+  };
+}
+
+export function locationRemove(id) {
+  return dispatch => {
+    dispatch(locationDeleting(id));
+    fetch(id);
   };
 }
 

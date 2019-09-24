@@ -1,10 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import {
+  locationCreating,
+  locationEdit
+} from "../../../store/actions/locationActions";
 import _ from "lodash";
+import * as yup from "yup";
 import * as locationService from "../../../services/location/locationService";
-import { locationsFetchData } from "../../../store/actions/locationActions";
 
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import { FormikTextField } from "formik-material-fields";
 import Button from "../../../components/UI/Button/Button";
 
 class FormConfig extends Component {
@@ -52,7 +57,6 @@ class FormConfig extends Component {
   componentDidMount() {
     if (this.props.type === "edit") {
       setTimeout(() => {
-        console.log(this.props);
         this.setState({
           title: this.props.location.title,
           description: this.props.location.description,
@@ -77,16 +81,21 @@ class FormConfig extends Component {
   render() {
     return (
       <div>
-        {/* <span onClick={this.editData}>sasas</span> */}
         <Formik
           enableReinitialize
           initialValues={this.state}
           // validate={validate(validationSchema)}
           // onSubmit={onSubmit}
           onSubmit={(values, { setSubmitting }) => {
+            const location = values;
             this.props.type === "edit"
-              ? locationService.editLocation(this.props.locationEditId, values)
-              : locationService.createLocation(values);
+              ? this.props.editLocation(this.props.locationEditId, values) &&
+                locationService.editLocation(this.props.locationEditId, values)
+              : locationService.createLocation(values).then(response => {
+                  const data = response.data;
+                  this.props.createLocation(data);
+                });
+
             const closeModal = () =>
               this.props.type === "edit"
                 ? this.props.onCloseEdit()
@@ -142,65 +151,73 @@ class FormConfig extends Component {
           }) =>
             this.props.type === "edit" ? (
               <Form>
-                <Field
+                <FormikTextField
                   type="text"
                   name="title"
+                  label="Title"
                   value={this.state.title}
                   onChange={e => this.handleChange(e, "title")}
                 />
                 <ErrorMessage name="title" component="div" />
 
-                <Field
+                <FormikTextField
                   type="text"
                   name="description"
+                  label="Description"
                   value={this.state.description}
                   onChange={e => this.handleChange(e, "description")}
                 />
                 <ErrorMessage name="description" component="div" />
 
-                <Field
+                <FormikTextField
                   type="text"
                   name="address"
+                  label="Address"
                   value={this.state.address}
                   onChange={e => this.handleChange(e, "address")}
                 />
                 <ErrorMessage name="address" component="div" />
 
-                <Field
+                <FormikTextField
                   type="text"
                   name="street_number"
+                  label="Street number"
                   value={this.state.street_number}
                   onChange={e => this.handleChange(e, "street_number")}
                 />
                 <ErrorMessage name="street_number" component="div" />
 
-                <Field
+                <FormikTextField
                   type="text"
                   name="city"
+                  label="City"
                   value={this.state.city}
                   onChange={e => this.handleChange(e, "city")}
                 />
                 <ErrorMessage name="city" component="div" />
 
-                <Field
+                <FormikTextField
                   type="text"
                   name="state"
+                  label="State"
                   value={this.state.state}
                   onChange={e => this.handleChange(e, "state")}
                 />
                 <ErrorMessage name="state" component="div" />
 
-                <Field
+                <FormikTextField
                   type="text"
                   name="country"
+                  label="Country"
                   value={this.state.country}
                   onChange={e => this.handleChange(e, "country")}
                 />
                 <ErrorMessage name="country" component="div" />
 
-                <Field
+                <FormikTextField
                   type="text"
                   name="zip_code"
+                  label="Zip Code"
                   value={this.state.zip_code}
                   onChange={e => this.handleChange(e, "zip_code")}
                 />
@@ -212,28 +229,36 @@ class FormConfig extends Component {
               </Form>
             ) : (
               <Form>
-                <Field type="text" name="title" />
+                <FormikTextField type="text" name="title" label="Title" />
                 <ErrorMessage name="title" component="div" />
 
-                <Field type="text" name="description" />
+                <FormikTextField
+                  type="text"
+                  name="description"
+                  label="Desctiption"
+                />
                 <ErrorMessage name="description" component="div" />
 
-                <Field type="text" name="address" />
+                <FormikTextField type="text" name="address" label="Address" />
                 <ErrorMessage name="address" component="div" />
 
-                <Field type="text" name="street_number" />
+                <FormikTextField
+                  type="text"
+                  name="street_number"
+                  label="Street Number"
+                />
                 <ErrorMessage name="street_number" component="div" />
 
-                <Field type="text" name="city" />
+                <FormikTextField type="text" name="city" label="City" />
                 <ErrorMessage name="city" component="div" />
 
-                <Field type="text" name="state" />
+                <FormikTextField type="text" name="state" label="State" />
                 <ErrorMessage name="state" component="div" />
 
-                <Field type="text" name="country" />
+                <FormikTextField type="text" name="country" label="Country" />
                 <ErrorMessage name="country" component="div" />
 
-                <Field type="text" name="zip_code" />
+                <FormikTextField type="text" name="zip_code" label="Zip Code" />
                 <ErrorMessage name="zip_code" component="div" />
 
                 <Button type="submit" disabled={isSubmitting}>
@@ -257,7 +282,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchData: url => dispatch(locationsFetchData(url))
+    createLocation: location => dispatch(locationCreating(location)),
+    editLocation: (id, location) => dispatch(locationEdit(id, location))
   };
 };
 
