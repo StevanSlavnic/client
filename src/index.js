@@ -25,16 +25,16 @@ const rootReducer = combineReducers({
 });
 
 // middleware, debugging purpouse only
-/* const logger = (store) => {
-	return (next) => {
-		return (action) => {
-			console.log('[Middleware] Dispatching', action);
-			const result = next(action);
-			console.log('[Middleware] Next state', store.getState());
-			return result;
-		};
-	};
-}; */
+const logger = store => {
+  return next => {
+    return action => {
+      console.log("[Middleware] Dispatching", action);
+      const result = next(action);
+      console.log("[Middleware] Next state", store.getState());
+      return result;
+    };
+  };
+};
 
 // redux devtools variable https://github.com/zalmoxisus/redux-devtools-extension#usage with fallback option to default compose
 const composeEnchancers =
@@ -45,7 +45,7 @@ const composeEnchancers =
 // wrapping applyMiddleware function inside composeEnchancers to make it compatible with redux devtools
 const store = createStore(
   rootReducer,
-  composeEnchancers(applyMiddleware(/* logger, */ thunk))
+  composeEnchancers(applyMiddleware(logger, thunk))
 );
 
 // Customizing the default theme of material-ui

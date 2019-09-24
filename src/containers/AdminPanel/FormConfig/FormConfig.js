@@ -1,7 +1,9 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import _ from "lodash";
 import * as locationService from "../../../services/location/locationService";
+import { locationsFetchData } from "../../../store/actions/locationActions";
 
 import Button from "../../../components/UI/Button/Button";
 
@@ -45,7 +47,6 @@ class FormConfig extends Component {
         ? nextPropsCopy.results.zip.long_name
         : ""
     });
-    console.log("componentWillReceiveProps", nextPropsCopy.results);
   }
 
   componentDidMount() {
@@ -86,7 +87,6 @@ class FormConfig extends Component {
             this.props.type === "edit"
               ? locationService.editLocation(this.props.locationEditId, values)
               : locationService.createLocation(values);
-
             const closeModal = () =>
               this.props.type === "edit"
                 ? this.props.onCloseEdit()
@@ -248,4 +248,20 @@ class FormConfig extends Component {
   }
 }
 
-export default FormConfig;
+const mapStateToProps = state => {
+  return {
+    locations: state.locations,
+    isLoading: state.locationsAreLoading
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchData: url => dispatch(locationsFetchData(url))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FormConfig);

@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { locationsFetchData } from "../../store/actions/locationActions";
+import {
+  locationsFetchData,
+  locationDelete
+} from "../../store/actions/locationActions";
 import * as locationService from "../../services/location/locationService";
 
 import Modal from "../../components/UI/Modal/Modal";
@@ -99,6 +102,7 @@ class AdminPanel extends Component {
     this.setState({
       modalDeleteOpened: false
     });
+    this.props.locationDelete(this.state.locationId);
   }
 
   render() {
@@ -169,7 +173,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchData: url => dispatch(locationsFetchData(url))
+    fetchData: url => dispatch(locationsFetchData(url)),
+    locationDelete: index => dispatch(locationDelete(index))
   };
 };
 

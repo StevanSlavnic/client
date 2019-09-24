@@ -40,7 +40,7 @@ class Search extends Component {
   componentDidMount() {
     window.scrollTo(0, 0);
 
-    console.log(this.props);
+    // console.log(this.props);
 
     this.setState({
       data: this.props.locations.locations ? this.props.locations.locations : []
@@ -54,9 +54,6 @@ class Search extends Component {
       ? this.props.locations.locations
       : [];
 
-    console.log("filtered", this.state.filteredData);
-
-    console.log(locations);
     return (
       <div className="searchForm">
         <form>

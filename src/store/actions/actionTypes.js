@@ -7,3 +7,5 @@ export const AUTH_LOGOUT = "AUTH_LOGOUT";
 
 export const USER_SET_LOGGED = "USER_SET_LOGGED";
 export const USER_UNSET_LOGGED = "USER_UNSET_LOGGED";
+
+export const LOCATION_DELETE = "LOCATION_DELETE";

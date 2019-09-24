@@ -1,3 +1,5 @@
+import * as actionTypes from "./actionTypes";
+
 export function locationsAreLoading(bool) {
   return {
     type: "LOCATIONS_ARE_LOADING",
@@ -9,6 +11,13 @@ export function locationsFetchDataSuccess(locations) {
   return {
     type: "LOCATIONS_FETCH_DATA_SUCCESS",
     locations
+  };
+}
+
+export function locationDelete(id) {
+  return {
+    type: actionTypes.LOCATION_DELETE,
+    id: id
   };
 }
 
