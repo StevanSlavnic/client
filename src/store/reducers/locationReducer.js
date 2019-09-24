@@ -8,28 +8,31 @@ const createLocation = (state, payload) => {
   console.log(newLocation);
 
   // make a copy
-  const newLocations = state.locations;
+  const newLocations = state.locations.slice();
 
-  newLocations.push(newLocation);
+  newLocations.splice(0, 0, newLocation);
 
   return { ...state, locations: newLocations };
 };
 
 const editLocation = (state, payload) => {
+  console.log(payload);
   const newLocations = state.locations.map((location, index) => {
     // Find the location with the matching id
     if (location.id === payload.id) {
-      // Return a new object
+      const payloadCopy = _.cloneDeep(payload);
 
+      console.log(payloadCopy);
+      // Return a new object
       return {
         ...location, // copy the existing location
-        title: payload.location.title,
-        description: payload.location.description,
-        address: payload.location.address,
-        street_number: payload.location.street_number,
-        city: payload.location.city,
-        state: payload.location.state,
-        zip_code: payload.location.zip_code
+        title: payloadCopy.location.title,
+        description: payloadCopy.location.description,
+        address: payloadCopy.location.address,
+        street_number: payloadCopy.location.street_number,
+        city: payloadCopy.location.city,
+        state: payloadCopy.location.state,
+        zip_code: payloadCopy.location.zip_code
       };
     }
     return location;
@@ -48,8 +51,12 @@ const removeLocation = (state, payload) => {
 };
 
 const setLocations = (state, payload) => {
-  console.log("Will set locations data:", payload.locations);
+  const stateCopy = _.cloneDeep(state);
+  stateCopy.locations = payload.locations;
+  return stateCopy;
+};
 
+const setLocationsFiltered = (state, payload) => {
   const stateCopy = _.cloneDeep(state);
   stateCopy.locations = payload.locations;
   return stateCopy;
@@ -59,6 +66,8 @@ const reducer = (state = {}, action) => {
   switch (action.type) {
     case "LOCATIONS_FETCH_DATA_SUCCESS":
       return setLocations(state, action);
+    case "LOCATIONS_FETCH_DATA_FILTERED":
+      return setLocationsFiltered(state, action);
     case "LOCATIONS_DELETING":
       return removeLocation(state, action);
     case "LOCATIONS_EDITING":

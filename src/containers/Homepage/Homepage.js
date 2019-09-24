@@ -1,8 +1,16 @@
 import React, { Component } from "react";
-import { Formik } from "formik";
 import { connect } from "react-redux";
-import { locationsFetchData } from "../../store/actions/locationActions";
+import {
+  locationsFetchData,
+  locationsFetchDataFiltered
+} from "../../store/actions/locationActions";
 import * as locationService from "../../services/location/locationService";
+import { Formik } from "formik";
+import { FormikTextField } from "formik-material-fields";
+
+import Location from "../../components/Location/Location";
+import Button from "../../components/UI/Button/Button";
+import classes from "./Homepage.module.scss";
 
 class HomePage extends Component {
   constructor(props) {
@@ -10,82 +18,120 @@ class HomePage extends Component {
     this.state = {
       locations: ""
     };
+
+    console.log(props);
   }
 
+  checkAdmin = () => {
+    const token = localStorage.getItem("token");
+  };
+
   componentDidMount() {
-    console.log(this.props.locations);
+    this.props.fetchData("http://127.0.0.1:8093/api/v1/locations");
   }
 
   render() {
-    const locations = this.state;
+    const {
+      locations: { locations }
+    } = this.props;
 
-    console.log(locations.location);
+    console.log(this.props.locations);
+
+    const locationsRender =
+      locations &&
+      locations.map(location => {
+        return (
+          <div className={classes.LocationHomeColumn} key={location.id}>
+            <Location
+              className={classes.LocationHomeCard}
+              isAdmin={this.props.match.url}
+              id={location.id}
+              location={location}
+            ></Location>
+          </div>
+        );
+      });
+
     return (
-      <div>
+      <div className={classes.HomePageWrap}>
         <h1>Search places</h1>
-        <Formik
-          initialValues={{ keyword: "", city: "" }}
-          onSubmit={(values, { setSubmitting }) => {
-            locationService
-              .getAllLocations(values.keyword, values.city)
-              .then(response => this.setState({ location: response.data }));
-            setTimeout(() => {
-              // alert(JSON.stringify(values, null, 2));
-              setSubmitting(false);
-            }, 400);
-          }}
-        >
-          {({
-            values,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            isSubmitting
-            /* and other goodies */
-          }) => (
-            <form onSubmit={handleSubmit}>
-              <input
-                type="text"
-                name="keyword"
-                placeholder="Search by any word"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.email}
-              />
+        <div className={classes.FormWrap}>
+          <Formik
+            initialValues={{ keyword: "", city: "" }}
+            onSubmit={(values, { setSubmitting }) => {
+              setTimeout(() => {
+                setSubmitting(false);
+                locationService
+                  .getAllLocations(values.keyword, values.city)
+                  .then(response => {
+                    const locations = response.data;
+                    console.log(values);
+                    this.props.fetchDataFiltered(locations);
+                  });
+              }, 600);
+            }}
+          >
+            {({
+              values,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              isSubmitting
+              /* and other goodies */
+            }) => (
+              <form onSubmit={handleSubmit}>
+                <FormikTextField
+                  type="text"
+                  name="keyword"
+                  placeholder="Search by any word"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.keyword}
+                  className={classes.HomePageFormField}
+                />
 
-              <input
-                type="text"
-                name="city"
-                placeholder="Search by city"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.password}
-              />
+                <FormikTextField
+                  type="text"
+                  name="city"
+                  placeholder="Search by city"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.city}
+                  className={classes.HomePageFormField}
+                />
 
-              <button type="submit" disabled={isSubmitting}>
-                Submit
-              </button>
-            </form>
-          )}
-        </Formik>
-
-        {/* <div>{locations && locations.map(location => location.title)}</div> */}
+                <Button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className={classes.HomePageFormButton}
+                >
+                  Submit
+                </Button>
+              </form>
+            )}
+          </Formik>
+        </div>
+        <div className={classes.LocationsHomeWrap}>
+          <div className={classes.LocationsHomeRow}>{locationsRender}</div>
+        </div>
       </div>
     );
   }
 }
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
-    locations: state.locations
+    locations: state.locations,
+    locationsFiltered: state.locationsFiltered,
+    loggedUser: state.user
   };
 };
 
 const mapDispatchToProps = dispatch => {
-  console.log(dispatch);
   return {
-    fetchData: url => dispatch(locationsFetchData(url))
+    fetchData: url => dispatch(locationsFetchData(url)),
+    fetchDataFiltered: locations =>
+      dispatch(locationsFetchDataFiltered(locations))
   };
 };
 

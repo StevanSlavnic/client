@@ -4,10 +4,6 @@ import { connect } from "react-redux";
 
 import "./App.scss";
 import * as actions from "./store/actions/indexActions";
-import {
-  getReturnToUrlToken,
-  deleteReturnToUrlToken
-} from "./utils/redirectTo";
 import { locationsFetchData } from "./store/actions/locationActions";
 // containers
 import * as container from "./containers/indexContainers";
@@ -26,8 +22,6 @@ class App extends React.PureComponent {
         mainDOMContainer.scrollTo(0, 0);
       }
     });
-
-    this.props.fetchData("http://127.0.0.1:8093/api/v1/locations");
   }
 
   updateUserData = () => {
@@ -50,13 +44,6 @@ class App extends React.PureComponent {
         pathname: "/auth",
         search: "?redirect=" + this.props.location.pathname
       });
-    }
-
-    // return the user to the private URL he wanted to access while he was a public user (before login/signup)
-    const returnToTokenUrl = getReturnToUrlToken();
-    if (this.props.loggedUser && returnToTokenUrl) {
-      deleteReturnToUrlToken();
-      setTimeout(() => this.props.history.push(returnToTokenUrl));
     }
   }
 
@@ -114,7 +101,7 @@ class App extends React.PureComponent {
       </Layout>
     );
 
-    console.log(this.props);
+    // console.log(this.props);
     return (
       // @TODO h1 loader is just a placeholder
       <React.Fragment>
@@ -139,8 +126,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onTryAutoSignup: () => dispatch(actions.authCheckState()),
-    updateLoggedUser: () => dispatch(actions.getLoggedUser()),
-    fetchData: url => dispatch(locationsFetchData(url))
+    updateLoggedUser: () => dispatch(actions.getLoggedUser())
   };
 };
 

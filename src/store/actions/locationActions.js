@@ -29,6 +29,13 @@ export function locationsAreLoading(bool) {
   };
 }
 
+export function locationsFetchDataFiltered(locations) {
+  return {
+    type: "LOCATIONS_FETCH_DATA_FILTERED",
+    locations
+  };
+}
+
 export function locationsFetchDataSuccess(locations) {
   return {
     type: "LOCATIONS_FETCH_DATA_SUCCESS",

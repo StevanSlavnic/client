@@ -8,6 +8,7 @@ import { FormikTextField } from "formik-material-fields";
 import Button from "./../../components/UI/Button/Button";
 import Card from "./../../components/UI/Card/Card";
 import * as yup from "yup";
+import classes from "./Auth.module.scss";
 
 const intialState = {
   email: "",
@@ -32,64 +33,69 @@ function AuthForm(props) {
   console.log(props);
 
   return (
-    <Card>
-      <Formik
-        initialValues={user}
-        onSubmit={(values, actions) => {
-          actions.setSubmitting(true);
-          setUser(values);
-          authService.login(values);
-          props
-            .onAuth(values.email, values.password)
+    <div className={classes.AuthWrap}>
+      <Card>
+        <h1>Log in</h1>
+        <Formik
+          initialValues={user}
+          onSubmit={(values, actions) => {
+            actions.setSubmitting(true);
+            setUser(values);
+            authService.login(values);
+            props
+              .onAuth(values.email, values.password)
 
-            .then(response => {
-              console.log("[Auth] Success", response);
-            })
+              .then(response => {
+                console.log("[Auth] Success", response);
+              })
 
-            .catch(err => {
-              console.log("[Auth] error", err);
-            });
+              .catch(err => {
+                console.log("[Auth] error", err);
+              });
 
-          setTimeout(() => {
-            actions.setSubmitting(false);
-          }, 2000);
-        }}
-        validationSchema={userSchema}
-      >
-        {props =>
-          !props.isSubmitting ? (
-            <form onSubmit={props.handleSubmit}>
-              <FormikTextField
-                name="email"
-                type="email"
-                label="Email"
-                onChange={props.handleChange}
-                value={props.values.email}
-                fullWidth
-              />
+            setTimeout(() => {
+              actions.setSubmitting(false);
+            }, 2000);
+          }}
+          validationSchema={userSchema}
+        >
+          {props =>
+            !props.isSubmitting ? (
+              <form onSubmit={props.handleSubmit}>
+                <FormikTextField
+                  name="email"
+                  type="email"
+                  label="Email"
+                  onChange={props.handleChange}
+                  value={props.values.email}
+                  fullWidth
+                />
 
-              <FormikTextField
-                name="password"
-                type="password"
-                label="Password"
-                onChange={props.handleChange}
-                value={props.values.password}
-                fullWidth
-              />
+                <FormikTextField
+                  name="password"
+                  type="password"
+                  label="Password"
+                  onChange={props.handleChange}
+                  value={props.values.password}
+                  fullWidth
+                />
 
-              <Button
-                type="submit"
-                disabled={!props.dirty && props.isSubmitting}
-              >
-                Submit
-              </Button>
-            </form>
-          ) : (
-            <div />
-          )
-        }
-      </Formik>
-    </Card>
+                <div className={classes.AuthButton}>
+                  <Button
+                    type="submit"
+                    disabled={!props.dirty && props.isSubmitting}
+                  >
+                    Submit
+                  </Button>
+                </div>
+              </form>
+            ) : (
+              <div />
+            )
+          }
+        </Formik>
+      </Card>
+    </div>
   );
 }
 

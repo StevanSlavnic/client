@@ -1,33 +1,53 @@
-.App {
-  text-align: center;
+/* autoprefixer grid: autoplace */
+
+@import "./sass/variables";
+@import "./sass/tools/tools.mixins";
+@import "./sass/generic/generic.reset";
+@import "./sass/generic/generic.fonts";
+
+
+
+html {
+  box-sizing: border-box;
+  background: $color-background;
+  color: $color-text-main;
+  font-size: $base-font-size;
+  height: 100%;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+body {
+  width: 100%;
+  height: 100%;
+
+  #root{
+    width: inherit;
+    min-height: inherit;
+  }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+section {
+  min-height: calc(100vh - 140px);
   display: flex;
-  flex-direction: column;
-  align-items: center;
+}
+
+main {
+  display: flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  width: 100%;
 }
 
-.App-link {
-  color: #61dafb;
+::-webkit-scrollbar {
+  width: 8px;
+  background:lightgray;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgb(195, 195, 195); 
+  border-radius: 15px;
 }
+
+::-webkit-scrollbar-thumb {
+  border-radius: 15px;
+  -webkit-box-shadow: inset 0 0 6px rgba(219, 219, 219, 0.5); 
+  background: $color-grey;
+} 

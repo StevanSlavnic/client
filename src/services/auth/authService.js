@@ -5,7 +5,6 @@ import axiosInstance from "../axiosDefaultInstance";
  * @param data {email, password}
  * @returns {AxiosPromise<any>}
  */
-
 export const create = data => {
   const url = "/users/create";
   const params = {
