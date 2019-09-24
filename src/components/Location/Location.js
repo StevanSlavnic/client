@@ -9,21 +9,27 @@ const Location = props => {
       className={[classes.Card, props.className].join(" ")}
       key={props.location.id}
     >
-      <Button
-        onClick={() => {
-          props.openEditModal(props.location.id);
-        }}
-      >
-        Edit
-      </Button>
-      <Button
-        onClick={() => {
-          props.openDeleteModal(props.location.id);
-        }}
-      >
-        Delete
-      </Button>
-      <div>{props.location.id}</div>
+      {props.isAdmin ? (
+        ""
+      ) : (
+        <div>
+          <Button
+            onClick={() => {
+              props.openEditModal(props.location.id);
+            }}
+          >
+            Edit
+          </Button>
+          <Button
+            onClick={() => {
+              props.openDeleteModal(props.location.id);
+            }}
+          >
+            Delete
+          </Button>
+        </div>
+      )}
+      {!props.isAdmin ? <div>{props.location.id}</div> : ""}
       <div>{props.location.title}</div>
       <div>{props.location.description}</div>
       <div>{props.location.address}</div>

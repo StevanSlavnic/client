@@ -1,8 +1,14 @@
 import React, { Component } from "react";
-import { Formik } from "formik";
 import { connect } from "react-redux";
-import { locationsFetchData } from "../../store/actions/locationActions";
+import {
+  locationsFetchData,
+  locationsFetchDataFiltered
+} from "../../store/actions/locationActions";
 import * as locationService from "../../services/location/locationService";
+import { Formik } from "formik";
+import { FormikTextField } from "formik-material-fields";
+import Location from "../../components/Location/Location";
+import Button from "../../components/UI/Button/Button";
 
 class HomePage extends Component {
   constructor(props) {
@@ -10,29 +16,53 @@ class HomePage extends Component {
     this.state = {
       locations: ""
     };
+
+    console.log(props);
   }
 
+  checkAdmin = () => {
+    const token = localStorage.getItem("token");
+  };
+
   componentDidMount() {
-    console.log(this.props.locations);
+    this.props.fetchData("http://127.0.0.1:8093/api/v1/locations");
   }
 
   render() {
-    const locations = this.state;
+    const {
+      locations: { locations }
+    } = this.props;
 
-    console.log(locations.location);
+    console.log(this.props.locations);
+
+    const locationsRender =
+      locations &&
+      locations.map(location => {
+        return (
+          <div key={location.id}>
+            <Location
+              isAdmin={this.props.match.url}
+              id={location.id}
+              location={location}
+            ></Location>
+          </div>
+        );
+      });
+
     return (
       <div>
         <h1>Search places</h1>
         <Formik
           initialValues={{ keyword: "", city: "" }}
           onSubmit={(values, { setSubmitting }) => {
-            locationService
-              .getAllLocations(values.keyword, values.city)
-              .then(response => this.setState({ location: response.data }));
             setTimeout(() => {
-              // alert(JSON.stringify(values, null, 2));
               setSubmitting(false);
-            }, 400);
+              locationService.getAllLocations(values).then(response => {
+                const locations = response.data;
+                console.log(values);
+                this.props.fetchDataFiltered(locations);
+              });
+            }, 600);
           }}
         >
           {({
@@ -44,48 +74,50 @@ class HomePage extends Component {
             /* and other goodies */
           }) => (
             <form onSubmit={handleSubmit}>
-              <input
+              <FormikTextField
                 type="text"
                 name="keyword"
                 placeholder="Search by any word"
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.email}
+                value={values.keyword}
               />
 
-              <input
+              <FormikTextField
                 type="text"
                 name="city"
                 placeholder="Search by city"
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.password}
+                value={values.city}
               />
 
-              <button type="submit" disabled={isSubmitting}>
+              <Button type="submit" disabled={isSubmitting}>
                 Submit
-              </button>
+              </Button>
             </form>
           )}
         </Formik>
 
-        {/* <div>{locations && locations.map(location => location.title)}</div> */}
+        <div>{locationsRender}</div>
       </div>
     );
   }
 }
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
-    locations: state.locations
+    locations: state.locations,
+    locationsFiltered: state.locationsFiltered,
+    loggedUser: state.user
   };
 };
 
 const mapDispatchToProps = dispatch => {
-  console.log(dispatch);
   return {
-    fetchData: url => dispatch(locationsFetchData(url))
+    fetchData: url => dispatch(locationsFetchData(url)),
+    fetchDataFiltered: locations =>
+      dispatch(locationsFetchDataFiltered(locations))
   };
 };
 

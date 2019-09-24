@@ -87,10 +87,17 @@ class FormConfig extends Component {
           // validate={validate(validationSchema)}
           // onSubmit={onSubmit}
           onSubmit={(values, { setSubmitting }) => {
-            const location = values;
             this.props.type === "edit"
-              ? this.props.editLocation(this.props.locationEditId, values) &&
-                locationService.editLocation(this.props.locationEditId, values)
+              ? setTimeout(() => {
+                  locationService
+                    .editLocation(this.props.locationEditId, values)
+                    .then(response => {
+                      console.log(response);
+                      const data = JSON.parse(response.config.data);
+                      console.log(data);
+                      this.props.editLocation(this.props.locationEditId, data);
+                    });
+                }, 1000)
               : locationService.createLocation(values).then(response => {
                   const data = response.data;
                   this.props.createLocation(data);

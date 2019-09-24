@@ -6,8 +6,8 @@ export const createLocation = locationData => {
   return axiosInstance.post(url, locationData);
 };
 
-export const editLocation = (location, locationData) => {
-  const url = `/locations/${location}`;
+export const editLocation = (locationId, locationData) => {
+  const url = `/locations/${locationId}`;
 
   console.log(url);
 
@@ -26,12 +26,10 @@ export const getLocation = locationData => {
   return axiosInstance.get(url, locationData);
 };
 
-export const getAllLocations = (queryParamOne, queryParamTwo) => {
-  console.log(queryParamOne, queryParamTwo);
+export const getAllLocations = queryParamOne => {
+  console.log(queryParamOne);
 
-  const url = `/locations${queryParamOne ? "?keyword=" + queryParamOne : ""}${
-    queryParamTwo ? "?city=" + queryParamTwo : ""
-  }`;
+  const url = `/locations${queryParamOne ? "?keyword=" + queryParamOne : ""}`;
 
   return axiosInstance.get(url);
 };

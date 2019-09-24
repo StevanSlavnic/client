@@ -4,10 +4,6 @@ import { connect } from "react-redux";
 
 import "./App.scss";
 import * as actions from "./store/actions/indexActions";
-import {
-  getReturnToUrlToken,
-  deleteReturnToUrlToken
-} from "./utils/redirectTo";
 import { locationsFetchData } from "./store/actions/locationActions";
 // containers
 import * as container from "./containers/indexContainers";
@@ -49,13 +45,6 @@ class App extends React.PureComponent {
         search: "?redirect=" + this.props.location.pathname
       });
     }
-
-    // // return the user to the private URL he wanted to access while he was a public user (before login/signup)
-    // const returnToTokenUrl = getReturnToUrlToken();
-    // if (this.props.loggedUser && returnToTokenUrl) {
-    //   deleteReturnToUrlToken();
-    //   setTimeout(() => this.props.history.push(returnToTokenUrl));
-    // }
   }
 
   render() {

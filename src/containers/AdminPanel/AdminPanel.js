@@ -109,27 +109,25 @@ class AdminPanel extends Component {
       locations: { locations }
     } = this.props;
 
-    // console.log(this.props.editLocation(this.state.locationEditId));
-
-    // const editLocation = ;
-
     const location = this.state.location;
 
-    const locationsRender = locations.map(location => {
-      return (
-        <div key={location.id}>
-          <Location
-            id={location.id}
-            location={location}
-            locationId={() => this.getLocationId(location.id)}
-            locationEditId={() => this.getLocationEditId(location.id)}
-            openEditModal={this.openEditModal}
-            openDeleteModal={this.openDeleteModal}
-            locationEditAction={""}
-          ></Location>
-        </div>
-      );
-    });
+    const locationsRender =
+      locations &&
+      locations.map(location => {
+        return (
+          <div key={location.id}>
+            <Location
+              id={location.id}
+              location={location}
+              locationId={() => this.getLocationId(location.id)}
+              locationEditId={() => this.getLocationEditId(location.id)}
+              openEditModal={this.openEditModal}
+              openDeleteModal={this.openDeleteModal}
+              locationEditAction={""}
+            ></Location>
+          </div>
+        );
+      });
 
     return (
       <div>
@@ -179,7 +177,7 @@ class AdminPanel extends Component {
 const mapStateToProps = state => {
   return {
     locations: state.locations,
-    isLoading: state.locationsAreLoading,
+    isLoading: state.locationsAreLoading
   };
 };
 
@@ -187,7 +185,6 @@ const mapDispatchToProps = dispatch => {
   return {
     fetchData: url => dispatch(locationsFetchData(url)),
     removeLocation: id => dispatch(locationRemove(id))
-    // editLocation: id => dispatch(locationEdit(id))
   };
 };
 
