@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-
 import * as actions from "../../../store/actions/indexActions";
 
+import Logo from "../../../logo.svg";
 import classes from "../Header/Header.module.scss";
 
 class Header extends Component {
@@ -15,8 +15,15 @@ class Header extends Component {
   render() {
     return (
       <div className={classes.Header}>
-        <div>
-          <Link to="/">FindYourService.com</Link>
+        <div className={classes.LogoPlace}>
+          <div>
+            <img className={classes.AppLogo} src={Logo} />
+          </div>
+          <div>
+            <Link to="/">
+              <div>FindYourService</div>
+            </Link>
+          </div>
         </div>
         <div>
           <nav className={classes.Nav}>

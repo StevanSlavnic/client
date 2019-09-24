@@ -124,32 +124,43 @@ class AdminPanel extends Component {
               openEditModal={this.openEditModal}
               openDeleteModal={this.openDeleteModal}
               locationEditAction={""}
-            ></Location>
+              className={classes.LocationAdminPanelCard}
+            />
           </div>
         );
       });
 
     return (
-      <div>
-        <h1>Admin panel</h1>
-        <Button onClick={this.openModal}>Add Location</Button>
+      <div className={classes.AdminPanelPageWrap}>
+        <div className={classes.AdminPanelHeader}>
+          <h1>Admin panel</h1>
+          <Button onClick={this.openModal}>Add Location</Button>
+        </div>
         <Modal
           open={this.state.modalOpened}
           onClose={this.closeModal}
-          className={classes.ModalWide}
+          className={classes.AdminPanelModalWide}
         >
-          <GooglePlaces parentCallback={this.callbackFunction} />
+          <GooglePlaces
+            parentCallback={this.callbackFunction}
+            className={classes.AdminPanelGoogleAutocomplete}
+          />
           <FormConfig results={this.state.results} onClose={this.closeModal} />
         </Modal>
 
-        <div>{!this.props.locations ? "No locations" : locationsRender}</div>
+        <div className={classes.LocationsAdminPanelWrap}>
+          <div>{locationsRender}</div>
+        </div>
 
         <Modal
           open={this.state.modalEditOpened}
           onClose={this.closeEditModal}
-          className={classes.ModalWide}
+          className={classes.AdminPanelModalWide}
         >
-          <GooglePlaces parentCallback={this.callbackFunction} />
+          <GooglePlaces
+            parentCallback={this.callbackFunction}
+            className={classes.AdminPanelGoogleAutocomplete}
+          />
           <FormConfig
             results={this.state.results}
             locationEditId={this.state.locationEditId}
@@ -162,12 +173,23 @@ class AdminPanel extends Component {
         <Modal
           open={this.state.modalDeleteOpened}
           onClose={this.closeDeleteModal}
+          className={classes.AdminPanelDialogModal}
         >
-          Are you shure you want to delete this Location?
-          <Button onClick={() => this.handleLocationDelete()}>
-            Delete
-          </Button>{" "}
-          <Button onClick={this.closeDeleteModal}>Cancel</Button>
+          <div>Are you shure you want to delete this Location?</div>
+          <div>
+            <Button
+              className={classes.AdminPanelButton}
+              onClick={() => this.handleLocationDelete()}
+            >
+              Delete
+            </Button>{" "}
+            <Button
+              className={classes.AdminPanelButton}
+              onClick={this.closeDeleteModal}
+            >
+              Cancel
+            </Button>
+          </div>
         </Modal>
       </div>
     );

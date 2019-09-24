@@ -5,6 +5,8 @@ import apiConf from "../../../utils/apiConfig";
 import { FormikTextField } from "formik-material-fields";
 import { Input } from "@material-ui/core";
 
+import classes from "./GooglePlaces.module.scss";
+
 const MY_API_KEY = apiConf.MAP_APY_KEY;
 
 class GoogleSuggest extends Component {
@@ -106,8 +108,9 @@ class GoogleSuggest extends Component {
               <Input
                 type="text"
                 value={value}
-                placeholder="Search place"
+                placeholder="Search place using Google Places service"
                 onChange={this.handleInputChange}
+                className={classes.GooglePlacesAutoComplete}
               />
             </ReactGooglePlacesSuggest>
           )

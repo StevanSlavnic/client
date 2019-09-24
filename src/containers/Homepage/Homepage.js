@@ -7,8 +7,10 @@ import {
 import * as locationService from "../../services/location/locationService";
 import { Formik } from "formik";
 import { FormikTextField } from "formik-material-fields";
+
 import Location from "../../components/Location/Location";
 import Button from "../../components/UI/Button/Button";
+import classes from "./Homepage.module.scss";
 
 class HomePage extends Component {
   constructor(props) {
@@ -39,8 +41,9 @@ class HomePage extends Component {
       locations &&
       locations.map(location => {
         return (
-          <div key={location.id}>
+          <div className={classes.LocationHomeColumn} key={location.id}>
             <Location
+              className={classes.LocationHomeCard}
               isAdmin={this.props.match.url}
               id={location.id}
               location={location}
@@ -50,56 +53,67 @@ class HomePage extends Component {
       });
 
     return (
-      <div>
+      <div className={classes.HomePageWrap}>
         <h1>Search places</h1>
-        <Formik
-          initialValues={{ keyword: "", city: "" }}
-          onSubmit={(values, { setSubmitting }) => {
-            setTimeout(() => {
-              setSubmitting(false);
-              locationService.getAllLocations(values).then(response => {
-                const locations = response.data;
-                console.log(values);
-                this.props.fetchDataFiltered(locations);
-              });
-            }, 600);
-          }}
-        >
-          {({
-            values,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            isSubmitting
-            /* and other goodies */
-          }) => (
-            <form onSubmit={handleSubmit}>
-              <FormikTextField
-                type="text"
-                name="keyword"
-                placeholder="Search by any word"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.keyword}
-              />
+        <div className={classes.FormWrap}>
+          <Formik
+            initialValues={{ keyword: "", city: "" }}
+            onSubmit={(values, { setSubmitting }) => {
+              setTimeout(() => {
+                setSubmitting(false);
+                locationService
+                  .getAllLocations(values.keyword, values.city)
+                  .then(response => {
+                    const locations = response.data;
+                    console.log(values);
+                    this.props.fetchDataFiltered(locations);
+                  });
+              }, 600);
+            }}
+          >
+            {({
+              values,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              isSubmitting
+              /* and other goodies */
+            }) => (
+              <form onSubmit={handleSubmit}>
+                <FormikTextField
+                  type="text"
+                  name="keyword"
+                  placeholder="Search by any word"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.keyword}
+                  className={classes.HomePageFormField}
+                />
 
-              <FormikTextField
-                type="text"
-                name="city"
-                placeholder="Search by city"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.city}
-              />
+                <FormikTextField
+                  type="text"
+                  name="city"
+                  placeholder="Search by city"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.city}
+                  className={classes.HomePageFormField}
+                />
 
-              <Button type="submit" disabled={isSubmitting}>
-                Submit
-              </Button>
-            </form>
-          )}
-        </Formik>
-
-        <div>{locationsRender}</div>
+                <Button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className={classes.HomePageFormButton}
+                >
+                  Submit
+                </Button>
+              </form>
+            )}
+          </Formik>
+        </div>
+        <div className={classes.LocationsHomeWrap}>
+          <div className={classes.LocationsHomeRow}>{locationsRender}</div>
+        </div>
       </div>
     );
   }

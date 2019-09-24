@@ -8,9 +8,10 @@ import _ from "lodash";
 import * as yup from "yup";
 import * as locationService from "../../../services/location/locationService";
 
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, ErrorMessage } from "formik";
 import { FormikTextField } from "formik-material-fields";
 import Button from "../../../components/UI/Button/Button";
+import classes from "./FormConfig.module.scss";
 
 class FormConfig extends Component {
   constructor(props) {
@@ -158,119 +159,162 @@ class FormConfig extends Component {
           }) =>
             this.props.type === "edit" ? (
               <Form>
-                <FormikTextField
-                  type="text"
-                  name="title"
-                  label="Title"
-                  value={this.state.title}
-                  onChange={e => this.handleChange(e, "title")}
-                />
-                <ErrorMessage name="title" component="div" />
+                <div className={classes.FormConfigGroup}>
+                  <FormikTextField
+                    type="text"
+                    name="title"
+                    label="Title"
+                    value={this.state.title}
+                    onChange={e => this.handleChange(e, "title")}
+                    className={classes.FormConfigField}
+                  />
 
-                <FormikTextField
-                  type="text"
-                  name="description"
-                  label="Description"
-                  value={this.state.description}
-                  onChange={e => this.handleChange(e, "description")}
-                />
-                <ErrorMessage name="description" component="div" />
+                  <FormikTextField
+                    type="text"
+                    name="description"
+                    label="Description"
+                    value={this.state.description}
+                    onChange={e => this.handleChange(e, "description")}
+                    className={classes.FormConfigField}
+                  />
+                </div>
 
-                <FormikTextField
-                  type="text"
-                  name="address"
-                  label="Address"
-                  value={this.state.address}
-                  onChange={e => this.handleChange(e, "address")}
-                />
-                <ErrorMessage name="address" component="div" />
+                <div className={classes.FormConfigGroup}>
+                  <FormikTextField
+                    type="text"
+                    name="address"
+                    label="Address"
+                    value={this.state.address}
+                    onChange={e => this.handleChange(e, "address")}
+                    className={classes.FormConfigField}
+                  />
 
-                <FormikTextField
-                  type="text"
-                  name="street_number"
-                  label="Street number"
-                  value={this.state.street_number}
-                  onChange={e => this.handleChange(e, "street_number")}
-                />
-                <ErrorMessage name="street_number" component="div" />
+                  <FormikTextField
+                    type="text"
+                    name="street_number"
+                    label="Street number"
+                    value={this.state.street_number}
+                    onChange={e => this.handleChange(e, "street_number")}
+                    className={classes.FormConfigField}
+                  />
+                </div>
 
-                <FormikTextField
-                  type="text"
-                  name="city"
-                  label="City"
-                  value={this.state.city}
-                  onChange={e => this.handleChange(e, "city")}
-                />
-                <ErrorMessage name="city" component="div" />
+                <div className={classes.FormConfigGroup}>
+                  <FormikTextField
+                    type="text"
+                    name="city"
+                    label="City"
+                    value={this.state.city}
+                    onChange={e => this.handleChange(e, "city")}
+                    className={classes.FormConfigField}
+                  />
 
-                <FormikTextField
-                  type="text"
-                  name="state"
-                  label="State"
-                  value={this.state.state}
-                  onChange={e => this.handleChange(e, "state")}
-                />
-                <ErrorMessage name="state" component="div" />
+                  <FormikTextField
+                    type="text"
+                    name="state"
+                    label="State"
+                    value={this.state.state}
+                    onChange={e => this.handleChange(e, "state")}
+                    className={classes.FormConfigField}
+                  />
+                </div>
 
-                <FormikTextField
-                  type="text"
-                  name="country"
-                  label="Country"
-                  value={this.state.country}
-                  onChange={e => this.handleChange(e, "country")}
-                />
-                <ErrorMessage name="country" component="div" />
+                <div className={classes.FormConfigGroup}>
+                  <FormikTextField
+                    type="text"
+                    name="country"
+                    label="Country"
+                    value={this.state.country}
+                    onChange={e => this.handleChange(e, "country")}
+                    className={classes.FormConfigField}
+                  />
 
-                <FormikTextField
-                  type="text"
-                  name="zip_code"
-                  label="Zip Code"
-                  value={this.state.zip_code}
-                  onChange={e => this.handleChange(e, "zip_code")}
-                />
-                <ErrorMessage name="zip_code" component="div" />
-
-                <Button type="submit" disabled={isSubmitting}>
-                  Submit
-                </Button>
+                  <FormikTextField
+                    type="text"
+                    name="zip_code"
+                    label="Zip Code"
+                    value={this.state.zip_code}
+                    onChange={e => this.handleChange(e, "zip_code")}
+                    className={classes.FormConfigField}
+                  />
+                </div>
+                <div className={classes.FormConfigButton}>
+                  <Button type="submit" disabled={isSubmitting}>
+                    Submit
+                  </Button>
+                </div>
               </Form>
             ) : (
               <Form>
-                <FormikTextField type="text" name="title" label="Title" />
-                <ErrorMessage name="title" component="div" />
+                <div className={classes.FormConfigGroup}>
+                  <FormikTextField
+                    type="text"
+                    name="title"
+                    label="Title"
+                    className={classes.FormConfigField}
+                  />
 
-                <FormikTextField
-                  type="text"
-                  name="description"
-                  label="Desctiption"
-                />
-                <ErrorMessage name="description" component="div" />
+                  <FormikTextField
+                    type="text"
+                    name="description"
+                    label="Desctiption"
+                    className={classes.FormConfigField}
+                  />
+                </div>
 
-                <FormikTextField type="text" name="address" label="Address" />
-                <ErrorMessage name="address" component="div" />
+                <div className={classes.FormConfigGroup}>
+                  <FormikTextField
+                    type="text"
+                    name="address"
+                    label="Address"
+                    className={classes.FormConfigField}
+                  />
 
-                <FormikTextField
-                  type="text"
-                  name="street_number"
-                  label="Street Number"
-                />
-                <ErrorMessage name="street_number" component="div" />
+                  <FormikTextField
+                    type="text"
+                    name="street_number"
+                    label="Street Number"
+                    className={classes.FormConfigField}
+                  />
+                </div>
 
-                <FormikTextField type="text" name="city" label="City" />
-                <ErrorMessage name="city" component="div" />
+                <div className={classes.FormConfigGroup}>
+                  <FormikTextField
+                    type="text"
+                    name="city"
+                    label="City"
+                    className={classes.FormConfigField}
+                  />
 
-                <FormikTextField type="text" name="state" label="State" />
-                <ErrorMessage name="state" component="div" />
+                  <FormikTextField
+                    type="text"
+                    name="state"
+                    label="State"
+                    className={classes.FormConfigField}
+                  />
+                </div>
 
-                <FormikTextField type="text" name="country" label="Country" />
-                <ErrorMessage name="country" component="div" />
+                <div className={classes.FormConfigGroup}>
+                  <FormikTextField
+                    type="text"
+                    name="country"
+                    label="Country"
+                    className={classes.FormConfigField}
+                  />
 
-                <FormikTextField type="text" name="zip_code" label="Zip Code" />
-                <ErrorMessage name="zip_code" component="div" />
+                  <FormikTextField
+                    type="text"
+                    name="zip_code"
+                    label="Zip Code"
+                    className={classes.FormConfigField}
+                  />
+                </div>
 
-                <Button type="submit" disabled={isSubmitting}>
-                  Submit
-                </Button>
+                <div className={classes.FormConfigButton}>
+                  <Button type="submit" disabled={isSubmitting}>
+                    Submit
+                  </Button>
+                </div>
               </Form>
             )
           }
