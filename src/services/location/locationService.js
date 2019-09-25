@@ -27,9 +27,6 @@ export const getLocation = locationData => {
 };
 
 export const getAllLocations = (queryParamOne, queryParamTwo) => {
-  // const url = "/locations";
-  console.log(queryParamOne, queryParamTwo);
-
   const queries = {
     keyword: queryParamOne,
     city: queryParamTwo

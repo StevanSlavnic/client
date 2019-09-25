@@ -1,7 +1,7 @@
 import React from "react";
-import Card from "./../UI/Card/Card";
 import { Button } from "@material-ui/core";
 
+import Card from "./../UI/Card/Card";
 import classes from "./Location.module.scss";
 
 const Location = props => {

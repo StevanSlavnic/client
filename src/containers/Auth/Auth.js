@@ -1,13 +1,13 @@
-import React, { useState, Fragment, useEffect } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import * as authService from "../../services/auth/authService";
 import * as actions from "../../store/actions/indexActions";
+import { Formik } from "formik";
+import * as yup from "yup";
 
-import { Formik, Field } from "formik";
 import { FormikTextField } from "formik-material-fields";
 import Button from "./../../components/UI/Button/Button";
 import Card from "./../../components/UI/Card/Card";
-import * as yup from "yup";
 import classes from "./Auth.module.scss";
 
 const intialState = {

@@ -1,10 +1,11 @@
-import React, { useState, Fragment, useEffect } from "react";
-import { Formik, Field } from "formik";
+import React, { useState } from "react";
+import { Formik } from "formik";
 import * as authService from "../../services/auth/authService";
 import { FormikTextField } from "formik-material-fields";
+import * as yup from "yup";
+
 import Card from "./../../components/UI/Card/Card";
 import Button from "./../../components/UI/Button/Button";
-import * as yup from "yup";
 import classes from "./SignUp.module.scss";
 
 const intialState = {

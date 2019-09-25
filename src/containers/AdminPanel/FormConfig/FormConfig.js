@@ -5,11 +5,10 @@ import {
   locationEdit
 } from "../../../store/actions/locationActions";
 import _ from "lodash";
-import * as yup from "yup";
 import * as locationService from "../../../services/location/locationService";
-
-import { Formik, Form, ErrorMessage } from "formik";
+import { Formik, Form } from "formik";
 import { FormikTextField } from "formik-material-fields";
+
 import Button from "../../../components/UI/Button/Button";
 import classes from "./FormConfig.module.scss";
 

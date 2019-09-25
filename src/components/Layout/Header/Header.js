@@ -17,7 +17,7 @@ class Header extends Component {
       <div className={classes.Header}>
         <div className={classes.LogoPlace}>
           <div>
-            <img className={classes.AppLogo} src={Logo} />
+            <img className={classes.AppLogo} src={Logo} alt={"Logo"} />
           </div>
           <div>
             <Link to="/">
