@@ -12,7 +12,7 @@ const Location = props => {
     >
       {!props.isAdmin ? (
         <div className={classes.LocationGeneral}>
-          <div>{props.location.id}</div>
+          <div>ID: {props.location.id}</div>
           <div>
             <Button
               onClick={() => {
@@ -34,15 +34,19 @@ const Location = props => {
         ""
       )}
       <div>
-        <h2>{props.location.title}</h2>
+        <div>
+          <h2>{props.location.title}</h2>
+        </div>
+        <div>
+          <p>{props.location.description}</p>
+        </div>
       </div>
       <div>
-        <p>{props.location.description}</p>
+        <div>Address: {props.location.address}</div>
+        <div>City: {props.location.city}</div>
+        <div>State: {props.location.state}</div>
+        <div>Zip Code: {props.location.zip_code}</div>
       </div>
-      <div>Address: {props.location.address}</div>
-      <div>City: {props.location.city}</div>
-      <div>State: {props.location.state}</div>
-      <div>Zip Code: {props.location.zip_code}</div>
     </Card>
   );
 };

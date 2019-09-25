@@ -30,9 +30,12 @@ export const getAllLocations = (queryParamOne, queryParamTwo) => {
   // const url = "/locations";
   console.log(queryParamOne, queryParamTwo);
 
-  const url = `/locations${queryParamOne ? "?keyword=" + queryParamOne : ""}${
-    queryParamTwo ? "?city=" + queryParamTwo : ""
-  }`;
+  const queries = {
+    keyword: queryParamOne,
+    city: queryParamTwo
+  };
 
-  return axiosInstance.get(url);
+  const url = `/locations?keyword=${queries.keyword}&city=${queries.city}`;
+
+  return axiosInstance.get(url, queries);
 };

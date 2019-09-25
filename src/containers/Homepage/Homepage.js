@@ -22,10 +22,6 @@ class HomePage extends Component {
     console.log(props);
   }
 
-  checkAdmin = () => {
-    const token = localStorage.getItem("token");
-  };
-
   componentDidMount() {
     this.props.fetchData("http://127.0.0.1:8093/api/v1/locations");
   }

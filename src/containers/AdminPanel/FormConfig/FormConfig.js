@@ -85,8 +85,6 @@ class FormConfig extends Component {
         <Formik
           enableReinitialize
           initialValues={this.state}
-          // validate={validate(validationSchema)}
-          // onSubmit={onSubmit}
           onSubmit={(values, { setSubmitting }) => {
             this.props.type === "edit"
               ? setTimeout(() => {
@@ -98,7 +96,7 @@ class FormConfig extends Component {
                       console.log(data);
                       this.props.editLocation(this.props.locationEditId, data);
                     });
-                }, 1000)
+                }, 400)
               : locationService.createLocation(values).then(response => {
                   const data = response.data;
                   this.props.createLocation(data);
@@ -119,44 +117,93 @@ class FormConfig extends Component {
             if (!values.title) {
               errors.title = "Required";
             }
+            if (values.title.length <= 3) {
+              errors.title = "Enter title longer than 3 characters";
+            }
+
+            if (values.title.length >= 150) {
+              errors.title = "Title is limited to 150 characters";
+            }
             if (!values.description) {
               errors.description = "Required";
             }
+
+            if (values.description.length <= 3) {
+              errors.description = "Enter description longer than 3 characters";
+            }
+
+            if (values.description.length >= 450) {
+              errors.description = "Description is limited to 450 characters";
+            }
+
             if (!values.address) {
               errors.address = "Required";
             }
+
+            if (values.address.length <= 3) {
+              errors.address = "Enter address longer than 3 characters";
+            }
+
+            if (values.address.length >= 150) {
+              errors.address = "Address is limited to 150 characters";
+            }
+
             if (!values.street_number) {
               errors.street_number = "Required";
             }
+
+            if (values.street_number.length >= 150) {
+              errors.street_number =
+                "Street number is limited to 150 characters";
+            }
+
             if (!values.city) {
               errors.city = "Required";
             }
+
+            if (values.city.length <= 3) {
+              errors.city = "Enter city name longer than 3 characters";
+            }
+
+            if (values.city.length >= 150) {
+              errors.city = "City name is limited to 150 characters";
+            }
+
             if (!values.state) {
               errors.state = "Required";
             }
+
+            if (values.state.length <= 3) {
+              errors.state = "Enter state name longer than 3 characters";
+            }
+
+            if (values.state.length >= 150) {
+              errors.state = "State name is limited to 150 characters";
+            }
+
             if (!values.country) {
               errors.country = "Required";
             }
+
+            if (values.country.length <= 3) {
+              errors.country = "Enter country name longer than 3 characters";
+            }
+
+            if (values.country.length >= 150) {
+              errors.country = "Country name is limited to 150 characters";
+            }
+
             if (!values.zip_code) {
               errors.zip_code = "Required";
             }
 
+            if (values.zip_code.length >= 150) {
+              errors.zip_code = "Zip code is limited to 150 characters";
+            }
+
             return errors;
           }}
-          render={({
-            values,
-            errors,
-            touched,
-            status,
-            dirty,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            isSubmitting,
-            isValid,
-            handleReset,
-            setTouched
-          }) =>
+          render={({ isSubmitting }) =>
             this.props.type === "edit" ? (
               <Form>
                 <div className={classes.FormConfigGroup}>
