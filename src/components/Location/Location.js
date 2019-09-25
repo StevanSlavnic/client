@@ -12,7 +12,10 @@ const Location = props => {
     >
       {!props.isAdmin ? (
         <div className={classes.LocationGeneral}>
-          <div>ID: {props.location.id}</div>
+          <div>
+            <span className={classes.LocationLabel}>ID:</span>{" "}
+            {props.location.id}
+          </div>
           <div>
             <Button
               onClick={() => {
@@ -42,10 +45,22 @@ const Location = props => {
         </div>
       </div>
       <div>
-        <div>Address: {props.location.address}</div>
-        <div>City: {props.location.city}</div>
-        <div>State: {props.location.state}</div>
-        <div>Zip Code: {props.location.zip_code}</div>
+        <div>
+          <span className={classes.LocationLabel}>Address:</span>{" "}
+          {props.location.address}
+        </div>
+        <div>
+          <span className={classes.LocationLabel}>City:</span>{" "}
+          {props.location.city}
+        </div>
+        <div>
+          <span className={classes.LocationLabel}>State:</span>{" "}
+          {props.location.state}
+        </div>
+        <div>
+          <span className={classes.LocationLabel}>Zip Code:</span>{" "}
+          {props.location.zip_code}
+        </div>
       </div>
     </Card>
   );

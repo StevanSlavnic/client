@@ -10,6 +10,8 @@ import { FormikTextField } from "formik-material-fields";
 
 import Location from "../../components/Location/Location";
 import Button from "../../components/UI/Button/Button";
+import IconButton from "@material-ui/core/IconButton";
+import Reset from "../../assets/images/icons/close_icon.svg";
 import classes from "./Homepage.module.scss";
 
 class HomePage extends Component {
@@ -72,7 +74,8 @@ class HomePage extends Component {
               handleChange,
               handleBlur,
               handleSubmit,
-              isSubmitting
+              isSubmitting,
+              resetForm
               /* and other goodies */
             }) => (
               <form onSubmit={handleSubmit}>
@@ -103,6 +106,17 @@ class HomePage extends Component {
                 >
                   Submit
                 </Button>
+
+                {values.keyword || values.city ? (
+                  <IconButton
+                    className={classes.HomePageResetButton}
+                    onClick={() => resetForm()}
+                  >
+                    <img className={classes.Icon} src={Reset} alt="X mark" />
+                  </IconButton>
+                ) : (
+                  ""
+                )}
               </form>
             )}
           </Formik>
