@@ -28,6 +28,10 @@ class HomePage extends Component {
     this.props.fetchData("http://127.0.0.1:8093/api/v1/locations");
   }
 
+  handleReset() {
+    this.props.fetchData("http://127.0.0.1:8093/api/v1/locations");
+  }
+
   render() {
     const {
       locations: { locations }
@@ -110,7 +114,10 @@ class HomePage extends Component {
                 {values.keyword || values.city ? (
                   <IconButton
                     className={classes.HomePageResetButton}
-                    onClick={() => resetForm()}
+                    onClick={() => {
+                      resetForm();
+                      this.handleReset();
+                    }}
                   >
                     <img className={classes.Icon} src={Reset} alt="X mark" />
                   </IconButton>
