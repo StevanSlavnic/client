@@ -1,6 +1,10 @@
 .LocationGeneral {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.LocationLabel {
+  font-weight: 400;
 }

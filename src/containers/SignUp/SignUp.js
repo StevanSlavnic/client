@@ -1,10 +1,11 @@
-import React, { useState, Fragment, useEffect } from "react";
-import { Formik, Field } from "formik";
+import React, { useState } from "react";
+import { Formik } from "formik";
 import * as authService from "../../services/auth/authService";
 import { FormikTextField } from "formik-material-fields";
+import * as yup from "yup";
+
 import Card from "./../../components/UI/Card/Card";
 import Button from "./../../components/UI/Button/Button";
-import * as yup from "yup";
 import classes from "./SignUp.module.scss";
 
 const intialState = {
@@ -34,7 +35,7 @@ function SignUp(props) {
   return (
     <div className={classes.SignUpWrap}>
       <Card>
-        <h1>Sign Up</h1>
+        <h1>Register</h1>
         <Formik
           initialValues={user}
           onSubmit={(values, actions) => {
@@ -100,7 +101,6 @@ function SignUp(props) {
                   <Button
                     type="submit"
                     disabled={!props.dirty && props.isSubmitting}
-                    // className={classes.SignUpButton}
                   >
                     Submit
                   </Button>

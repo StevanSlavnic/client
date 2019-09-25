@@ -1,14 +1,11 @@
 import React from "react";
 import { Route, Switch, Redirect, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-
-import "./App.scss";
 import * as actions from "./store/actions/indexActions";
-import { locationsFetchData } from "./store/actions/locationActions";
-// containers
 import * as container from "./containers/indexContainers";
-// components
+
 import Layout from "./components/Layout/Layout";
+import "./App.scss";
 
 class App extends React.PureComponent {
   componentDidMount() {

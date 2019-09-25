@@ -27,12 +27,12 @@ export const getLocation = locationData => {
 };
 
 export const getAllLocations = (queryParamOne, queryParamTwo) => {
-  // const url = "/locations";
-  console.log(queryParamOne, queryParamTwo);
+  const queries = {
+    keyword: queryParamOne,
+    city: queryParamTwo
+  };
 
-  const url = `/locations${queryParamOne ? "?keyword=" + queryParamOne : ""}${
-    queryParamTwo ? "?city=" + queryParamTwo : ""
-  }`;
+  const url = `/locations?keyword=${queries.keyword}&city=${queries.city}`;
 
-  return axiosInstance.get(url);
+  return axiosInstance.get(url, queries);
 };

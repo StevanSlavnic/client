@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import ReactGoogleMapLoader from "react-google-maps-loader";
 import ReactGooglePlacesSuggest from "react-google-places-suggest";
 import apiConf from "../../../utils/apiConfig";
-import { FormikTextField } from "formik-material-fields";
 import { Input } from "@material-ui/core";
 
 import classes from "./GooglePlaces.module.scss";
