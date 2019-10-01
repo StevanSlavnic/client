@@ -28,6 +28,10 @@ export function locationDeleting(id) {
   };
 }
 
+/**
+ *
+ * @param {*} bool
+ */
 export function locationsAreLoading(bool) {
   return {
     type: "LOCATIONS_ARE_LOADING",
