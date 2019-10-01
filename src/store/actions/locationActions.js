@@ -6,12 +6,6 @@ export function locationCreating(location) {
   };
 }
 
-/**
- *
- * @param {*} id
- * @param {*} location
- */
-
 export function locationEditing(id, location) {
   console.log(location);
   return {
@@ -28,10 +22,6 @@ export function locationDeleting(id) {
   };
 }
 
-/**
- *
- * @param {*} bool
- */
 export function locationsAreLoading(bool) {
   return {
     type: "LOCATIONS_ARE_LOADING",
