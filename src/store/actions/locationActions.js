@@ -6,6 +6,12 @@ export function locationCreating(location) {
   };
 }
 
+/**
+ *
+ * @param {*} id
+ * @param {*} location
+ */
+
 export function locationEditing(id, location) {
   console.log(location);
   return {
