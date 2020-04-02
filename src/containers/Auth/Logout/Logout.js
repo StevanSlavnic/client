@@ -1,22 +1,25 @@
-import React, { Component } from 'react';
-import * as actions from "../../../store/actions/indexActions";
-import { Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import * as actions from '../../../store/actions/indexActions'
 
 class Logout extends Component {
-    componentDidMount() {
-        this.props.onLogout();
-    }
+  static propTypes = {
+    onLogout: PropTypes.func.isRequired
+  }
 
-    render () {
-        return <Redirect to="/"/>;
-    }
+  componentDidMount() {
+    this.props.onLogout()
+  }
+
+  render() {
+    return <Redirect to='/' />
+  }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        onLogout: () => dispatch(actions.logout())
-    };
-};
+const mapDispatchToProps = dispatch => ({
+  onLogout: () => dispatch(actions.logout())
+})
 
-export default connect(null, mapDispatchToProps)(Logout);
+export default connect(null, mapDispatchToProps)(Logout)
