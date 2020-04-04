@@ -1,0 +1,12 @@
+{
+    "editor.formatOnSave": true,
+    "eslint.format.enable": true,
+    "eslint.lintTask.enable": true,
+    "eslint.packageManager": "yarn",
+    "prettier.semi": false,
+    "prettier.singleQuote": true,
+    "prettier.arrowParens": "always",
+    "prettier.jsxSingleQuote": true,
+    "prettier.tabWidth": 2,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+}
