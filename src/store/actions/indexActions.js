@@ -1,5 +1,7 @@
-export { auth, authUsingToken, logout, authCheckState } from "./authActions";
+export {
+  auth, authUsingToken, logout, authCheckState
+} from './authActions'
 
-export { getLoggedUser, unsetLoggedUser } from "./userActions";
+export { getLoggedUser, unsetLoggedUser } from './userActions'
 
-export * from "./locationActions";
+export * from './locationActions'

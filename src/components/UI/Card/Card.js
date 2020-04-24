@@ -1,17 +1,28 @@
-import React from "react";
-import classes from "./Card.module.scss";
+import React from 'react'
+import PropTypes from 'prop-types'
+import classes from './Card.module.scss'
 
-const Card = React.forwardRef((props, ref) => {
-  const ribbonColorClass = props.color ? classes[`Card--${props.color}`] : "";
+const Card = (props) => {
+  const ribbonColorClass = props.color ? classes[`Card--${props.color}`] : ''
   return (
     <div
       {...props}
-      ref={ref}
-      className={[props.className, ribbonColorClass, classes.Card].join(" ")}
+      className={[props.className, ribbonColorClass, classes.Card].join(' ')}
     >
       {props.children}
     </div>
-  );
-});
+  )
+}
 
-export default Card;
+Card.propTypes = {
+  color: PropTypes.string,
+  className: PropTypes.string,
+  children: PropTypes.array.isRequired,
+}
+
+Card.defaultProps = {
+  color: null,
+  className: null
+}
+
+export default Card

@@ -1,14 +1,19 @@
-import React from "react";
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 
-import Header from "./Header/Header";
-import Footer from "./Footer/Footer";
-import classes from "./Layout.module.scss";
+import Header from './Header/Header'
+import Footer from './Footer/Footer'
+import classes from './Layout.module.scss'
 
-class Layout extends React.PureComponent {
+class Layout extends PureComponent {
+  static propTypes = {
+    children: PropTypes.object.isRequired
+  }
+
   render() {
     return (
       <div className={classes.LayoutRoot}>
-        <Header></Header>
+        <Header />
         <div className={classes.MainWrap}>
           {/* central section */}
           <section className={classes.MainContainer}>
@@ -18,8 +23,8 @@ class Layout extends React.PureComponent {
           <Footer />
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default Layout;
+export default Layout
