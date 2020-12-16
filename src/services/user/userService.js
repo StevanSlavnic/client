@@ -1,16 +1,16 @@
-/* eslint-disable import/prefer-default-export */
-/* eslint-disable no-multi-assign */
-import axiosInstance from '../axiosDefaultInstance'
+import axiosInstance from "../axiosDefaultInstance";
 
 /**
  * Get User data based on local storage token
  * @param token
  * @returns {AxiosPromise<any>}
  */
-export const getLoggedUser = (token) => {
-  const config = (axiosInstance.defaults.headers.common.Authorization = `Bearer ${token}`)
+export const getLoggedUser = token => {
+  const config = (axiosInstance.defaults.headers.common[
+    "Authorization"
+  ] = `Bearer ${token}`);
 
-  const url = '/users/show'
+  const url = "/users/show";
 
-  return axiosInstance.post(url, config)
-}
+  return axiosInstance.post(url, config);
+};
