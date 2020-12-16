@@ -1,76 +1,76 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import { Formik } from 'formik'
-import { FormikTextField } from 'formik-material-fields'
-import IconButton from '@material-ui/core/IconButton'
+import React, { Component } from "react";
+import { connect } from "react-redux";
 import {
   locationsFetchData,
   locationsFetchDataFiltered
-} from '../../store/actions/locationActions'
-import * as locationService from '../../services/location/locationService'
+} from "../../store/actions/locationActions";
+import * as locationService from "../../services/location/locationService";
+import { Formik } from "formik";
+import { FormikTextField } from "formik-material-fields";
 
-import Location from '../../components/Location/Location'
-import Button from '../../components/UI/Button/Button'
-import Reset from '../../assets/images/icons/close_icon.svg'
-import classes from './Homepage.module.scss'
+import Location from "../../components/Location/Location";
+import Button from "../../components/UI/Button/Button";
+import IconButton from "@material-ui/core/IconButton";
+import Reset from "../../assets/images/icons/close_icon.svg";
+import classes from "./Homepage.module.scss";
 
 class HomePage extends Component {
-  static propTypes = {
-    fetchData: PropTypes.func.isRequired,
-    locations: PropTypes.object.isRequired,
-    match: PropTypes.object,
-    fetchDataFiltered: PropTypes.func.isRequired
-  }
+  constructor(props) {
+    super(props);
+    this.state = {
+      locations: ""
+    };
 
-  static defaultProps = {
-    match: null
+    console.log(props);
   }
 
   componentDidMount() {
-    this.props.fetchData('http://127.0.0.1:8093/api/v1/locations')
+    this.props.fetchData("http://127.0.0.1:8093/api/v1/locations");
   }
 
   handleReset() {
-    this.props.fetchData('http://127.0.0.1:8093/api/v1/locations')
+    this.props.fetchData("http://127.0.0.1:8093/api/v1/locations");
   }
 
   render() {
     const {
       locations: { locations }
-    } = this.props
+    } = this.props;
 
-    console.log(this.props.locations)
+    console.log(this.props.locations);
 
-    const locationsRender = locations
-        && locations.map(location => (
+    const locationsRender =
+      locations &&
+      locations.map(location => {
+        return (
           <div className={classes.LocationHomeColumn} key={location.id}>
             <Location
               className={classes.LocationHomeCard}
               isAdmin={this.props.match.url}
               id={location.id}
               location={location}
-            />
+            ></Location>
           </div>
-        ))
+        );
+      });
 
     return (
       <div className={classes.HomePageWrap}>
         <h1>Search places</h1>
         <div className={classes.FormWrap}>
           <Formik
-            initialValues={{ keyword: '', city: '' }}
+            initialValues={{ keyword: "", city: "" }}
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
-                setSubmitting(false)
+                setSubmitting(false);
                 locationService
                   .getAllLocations(values.keyword, values.city)
-                  .then((response) => {
-                    const results = response.data
-                    console.log(values)
-                    this.props.fetchDataFiltered(results)
-                  })
-              }, 600)
+                  .then(response => {
+                    const locations = response.data;
+                    console.log(values);
+                    this.props.fetchDataFiltered(locations);
+                  });
+              }, 600);
             }}
           >
             {({
@@ -84,9 +84,9 @@ class HomePage extends Component {
             }) => (
               <form onSubmit={handleSubmit}>
                 <FormikTextField
-                  type='text'
-                  name='keyword'
-                  placeholder='Search by any word'
+                  type="text"
+                  name="keyword"
+                  placeholder="Search by any word"
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.keyword}
@@ -94,9 +94,9 @@ class HomePage extends Component {
                 />
 
                 <FormikTextField
-                  type='text'
-                  name='city'
-                  placeholder='Search by city'
+                  type="text"
+                  name="city"
+                  placeholder="Search by city"
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.city}
@@ -104,7 +104,7 @@ class HomePage extends Component {
                 />
 
                 <Button
-                  type='submit'
+                  type="submit"
                   disabled={isSubmitting}
                   className={classes.HomePageFormButton}
                 >
@@ -115,14 +115,14 @@ class HomePage extends Component {
                   <IconButton
                     className={classes.HomePageResetButton}
                     onClick={() => {
-                      resetForm()
-                      this.handleReset()
+                      resetForm();
+                      this.handleReset();
                     }}
                   >
-                    <img className={classes.Icon} src={Reset} alt='X mark' />
+                    <img className={classes.Icon} src={Reset} alt="X mark" />
                   </IconButton>
                 ) : (
-                  ''
+                  ""
                 )}
               </form>
             )}
@@ -132,22 +132,27 @@ class HomePage extends Component {
           <div className={classes.LocationsHomeRow}>{locationsRender}</div>
         </div>
       </div>
-    )
+    );
   }
 }
 
-const mapStateToProps = state => ({
-  locations: state.locations,
-  locationsFiltered: state.locationsFiltered,
-  loggedUser: state.user
-})
+const mapStateToProps = state => {
+  return {
+    locations: state.locations,
+    locationsFiltered: state.locationsFiltered,
+    loggedUser: state.user
+  };
+};
 
-const mapDispatchToProps = dispatch => ({
-  fetchData: url => dispatch(locationsFetchData(url)),
-  fetchDataFiltered: locations => dispatch(locationsFetchDataFiltered(locations))
-})
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchData: url => dispatch(locationsFetchData(url)),
+    fetchDataFiltered: locations =>
+      dispatch(locationsFetchDataFiltered(locations))
+  };
+};
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(HomePage)
+)(HomePage);
